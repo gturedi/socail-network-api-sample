@@ -2,20 +2,23 @@ package com.gturedi.socialnetworkapp
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import androidx.activity.viewModels
 import com.gturedi.socialnetworkapp.databinding.ActivityMainBinding
+import com.gturedi.socialnetworkapp.util.log
+import com.gturedi.socialnetworkapp.util.toast
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    //val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+    val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +39,11 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         val code = intent?.data?.getQueryParameter("code")
         log("code $code")
-        toast("code $code")
+        if (code == null) {
+            toast(R.string.errorMessage)
+        } else {
+            viewModel.handleAuthorizationCode(code)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

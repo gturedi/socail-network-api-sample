@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.navigation.fragment.findNavController
 import com.gturedi.socialnetworkapp.databinding.FragmentFirstBinding
+import com.gturedi.socialnetworkapp.util.AppConst
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
