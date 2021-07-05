@@ -3,12 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/HomeFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/HomeFragment"
         android:name="com.gturedi.socialnetworkapp.ui.home.HomeFragment"
-        android:label="@string/first_fragment_label"
+        android:label="home"
         tools:layout="@layout/fragment_first">
+        <action
+            android:id="@+id/action_HomeFragment_to_DetailFragment"
+            app:destination="@id/DetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/DetailFragment"
+        android:name="com.gturedi.socialnetworkapp.ui.detail.DetailFragment"
+        android:label="detail"></fragment>
 </navigation>

@@ -9,7 +9,7 @@ class DetailViewModel : ViewModel() {
 
     private val dataRepository by lazy { DataRepository() }
 
-    fun retrieveCheckins() = flow {
+    fun retrieveVenue(id:String) = flow {
         emit(NetworkResult.Loading)
         val result = dataRepository.retrieveCheckins()
         emit(result)

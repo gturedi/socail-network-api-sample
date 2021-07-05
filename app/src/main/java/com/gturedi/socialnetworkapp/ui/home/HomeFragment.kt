@@ -9,6 +9,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.databinding.FragmentFirstBinding
 import com.gturedi.socialnetworkapp.network.NetworkResult
@@ -76,6 +78,9 @@ class HomeFragment : BaseFragment() {
                     toast("retrieveCheckins $it")
                 }
             }
+        }
+        binding.detail.setOnClickListener {
+            findNavController().navigate(R.id.action_HomeFragment_to_DetailFragment)
         }
     }
 

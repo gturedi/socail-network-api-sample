@@ -9,6 +9,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.gturedi.socialnetworkapp.databinding.FragmentDetailBinding
 import com.gturedi.socialnetworkapp.ui.home.AuthViewModel
 import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.ui.home.HomeViewModel
@@ -20,15 +22,14 @@ import kotlinx.coroutines.flow.collect
 
 class DetailFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentFirstBinding
-    private val authViewModel: AuthViewModel by activityViewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var binding: FragmentDetailBinding
+    private val detailViewModel: DetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFirstBinding.inflate(inflater, container, false)
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -36,48 +37,8 @@ class DetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        lifecycleScope.launchWhenCreated {
-            authViewModel.authCode.collect {
-                toast("frg code $it")
-                //viewModel.handleAuthorizationCode(it)
-                authViewModel.handleAuthorizationCode(it).collect {
-                    when(it) {
-                        is NetworkResult.Loading -> showLoading()
-                        is NetworkResult.Success -> {
-                            hideLoading()
-                            toast("token ${it.data}")
-                        }
-                        is NetworkResult.Failure -> {
-                            hideLoading()
-                            toast("err ${it.error}")
-                        }
-                    }
-                    toast("handleAuthorizationCode $it")
-                }
-            }
-        }
-
         binding.buttonFirst.setOnClickListener {
-            CustomTabsIntent.Builder().build().launchUrl(requireContext(), Uri.parse(AppConst.AUTH_URL))
-        }
-        binding.buttonSecond.setOnClickListener {
-            lifecycleScope.launchWhenCreated {
-                homeViewModel.retrieveCheckins().collect {
-                    when(it) {
-                        is NetworkResult.Loading -> showLoading()
-                        is NetworkResult.Success -> {
-                            hideLoading()
-                            toast("items ${it.data}")
-                        }
-                        is NetworkResult.Failure -> {
-                            hideLoading()
-                            toast("err ${it.error}")
-                        }
-                    }
-                    toast("retrieveCheckins $it")
-                }
-            }
+            findNavController().popBackStack()
         }
     }
 
