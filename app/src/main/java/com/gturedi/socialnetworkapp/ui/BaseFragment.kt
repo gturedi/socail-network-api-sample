@@ -1,4 +1,4 @@
-package com.gturedi.socialnetworkapp
+package com.gturedi.socialnetworkapp.ui
 
 import androidx.fragment.app.Fragment
 

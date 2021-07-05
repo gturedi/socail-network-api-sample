@@ -1,4 +1,4 @@
-package com.gturedi.socialnetworkapp
+package com.gturedi.socialnetworkapp.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.activity.viewModels
+import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.ActivityMainBinding
+import com.gturedi.socialnetworkapp.ui.home.AuthViewModel
 import com.gturedi.socialnetworkapp.util.log
 
 class MainActivity : BaseActivity() {

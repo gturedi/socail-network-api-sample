@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.gturedi.socialnetworkapp.HomeFragment"
+        android:name="com.gturedi.socialnetworkapp.ui.home.HomeFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
     </fragment>

@@ -1,16 +1,11 @@
-package com.gturedi.socialnetworkapp
+package com.gturedi.socialnetworkapp.ui.detail
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.gturedi.socialnetworkapp.ui.home.DataRepository
 import com.gturedi.socialnetworkapp.network.NetworkResult
-import com.gturedi.socialnetworkapp.network.TokenModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class DetailViewModel : ViewModel() {
 
     private val dataRepository by lazy { DataRepository() }
 

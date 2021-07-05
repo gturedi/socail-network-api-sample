@@ -1,8 +1,8 @@
-package com.gturedi.socialnetworkapp
+package com.gturedi.socialnetworkapp.ui
 
 import android.app.Dialog
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import com.gturedi.socialnetworkapp.R
 
 open class BaseActivity : AppCompatActivity() {
 

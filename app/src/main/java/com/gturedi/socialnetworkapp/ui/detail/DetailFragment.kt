@@ -1,4 +1,4 @@
-package com.gturedi.socialnetworkapp
+package com.gturedi.socialnetworkapp.ui.detail
 
 import android.net.Uri
 import android.os.Bundle
@@ -9,13 +9,16 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.gturedi.socialnetworkapp.ui.home.AuthViewModel
+import com.gturedi.socialnetworkapp.ui.BaseFragment
+import com.gturedi.socialnetworkapp.ui.home.HomeViewModel
 import com.gturedi.socialnetworkapp.databinding.FragmentFirstBinding
 import com.gturedi.socialnetworkapp.network.NetworkResult
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.toast
 import kotlinx.coroutines.flow.collect
 
-class HomeFragment : BaseFragment() {
+class DetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentFirstBinding
     private val authViewModel: AuthViewModel by activityViewModels()
