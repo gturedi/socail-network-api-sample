@@ -2,6 +2,7 @@ package com.gturedi.socialnetworkapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import com.gturedi.socialnetworkapp.network.NetworkResult
+import com.gturedi.socialnetworkapp.ui.DataRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
@@ -18,8 +19,12 @@ class AuthViewModel : ViewModel() {
     }
 
     fun handleAuthorizationCode(code: String) = flow {
-        emit(NetworkResult.Loading)
-        val result = dataRepository.retrieveAccessToken(code)
-        emit(result)
+        if (code.isNullOrBlank()) {
+            emit(NetworkResult.Failure("code empty"))
+        } else {
+            emit(NetworkResult.Loading)
+            val result = dataRepository.retrieveAccessToken(code)
+            emit(result)
+        }
     }
 }

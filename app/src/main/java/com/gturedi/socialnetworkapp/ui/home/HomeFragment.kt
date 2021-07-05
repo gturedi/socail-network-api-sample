@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.ui.BaseFragment
-import com.gturedi.socialnetworkapp.databinding.FragmentFirstBinding
+import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.NetworkResult
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.toast
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.collect
 
 class HomeFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentFirstBinding
+    private lateinit var binding: FragmentHomeBinding
     private val authViewModel: AuthViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
 
@@ -28,7 +28,7 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFirstBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -36,6 +36,7 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.token.text = AppConst.accessToken
 
         lifecycleScope.launchWhenCreated {
             authViewModel.authCode.collect {
@@ -47,10 +48,12 @@ class HomeFragment : BaseFragment() {
                         is NetworkResult.Success -> {
                             hideLoading()
                             toast("token ${it.data}")
+                            AppConst.accessToken = it.data?.token.orEmpty()
+                            binding.token.text = AppConst.accessToken
                         }
                         is NetworkResult.Failure -> {
                             hideLoading()
-                            toast("err ${it.error}")
+                            toast("err ${it.message}")
                         }
                     }
                     toast("handleAuthorizationCode $it")
@@ -72,7 +75,7 @@ class HomeFragment : BaseFragment() {
                         }
                         is NetworkResult.Failure -> {
                             hideLoading()
-                            toast("err ${it.error}")
+                            toast("err ${it.message}")
                         }
                     }
                     toast("retrieveCheckins $it")

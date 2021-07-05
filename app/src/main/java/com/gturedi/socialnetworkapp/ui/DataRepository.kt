@@ -1,4 +1,4 @@
-package com.gturedi.socialnetworkapp.ui.home
+package com.gturedi.socialnetworkapp.ui
 
 import com.gturedi.socialnetworkapp.network.*
 
@@ -10,14 +10,21 @@ class DataRepository {
         val result = service.accessToken(code)
         NetworkResult.Success(result)
     } catch (e:Exception) {
-        NetworkResult.Failure(ServiceError(e.message))
+        NetworkResult.Failure(e.message)
     }
 
     suspend fun retrieveCheckins(): NetworkResult<SocialNetworkResponse<CheckinReponseModel>> = try {
-        val result = service.checkins("")
+        val result = service.checkins()
         NetworkResult.Success(result)
     } catch (e:Exception) {
-        NetworkResult.Failure(ServiceError(e.message))
+        NetworkResult.Failure(e.message)
+    }
+
+    suspend fun retrieveVenue(id:String): NetworkResult<SocialNetworkResponse<CheckinReponseModel>> = try {
+        val result = service.venues(id)
+        NetworkResult.Success(result)
+    } catch (e:Exception) {
+        NetworkResult.Failure(e.message)
     }
 
 }

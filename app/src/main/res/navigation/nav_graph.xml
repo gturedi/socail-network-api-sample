@@ -9,7 +9,7 @@
         android:id="@+id/HomeFragment"
         android:name="com.gturedi.socialnetworkapp.ui.home.HomeFragment"
         android:label="home"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_HomeFragment_to_DetailFragment"
             app:destination="@id/DetailFragment" />
