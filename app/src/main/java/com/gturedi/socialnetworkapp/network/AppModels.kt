@@ -31,7 +31,7 @@ data class MetaModel(
 )
 
 data class CheckinReponseModel(
-    val checkins: List<ListModel>
+    val checkins: ListModel
 )
 
 data class ListModel(

@@ -71,7 +71,12 @@ class HomeFragment : BaseFragment() {
                         is NetworkResult.Loading -> showLoading()
                         is NetworkResult.Success -> {
                             hideLoading()
-                            toast("items ${it.data}")
+                            //toast("items ${it.data}")
+                            val adapter = CheckinsAdapter {
+                                toast("item $it")
+                            }
+                            binding.items.adapter = adapter
+                            adapter.submitList(it.data?.response?.checkins?.items?.toMutableList())
                         }
                         is NetworkResult.Failure -> {
                             hideLoading()
