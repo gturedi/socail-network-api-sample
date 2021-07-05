@@ -9,9 +9,9 @@ sealed class NetworkResult<out T> {
 
     override fun toString(): String {
         return when (this) {
-            is NetworkResult.Loading -> "Loading[]"
-            is NetworkResult.Success -> "Success[data: $data]"
-            is NetworkResult.Failure -> "Failure[error: $error"
+            is Loading -> "Loading[]"
+            is Success -> "Success[data: $data]"
+            is Failure -> "Failure[error: $error"
         }
     }
 }
@@ -20,4 +20,33 @@ class ServiceError(val message: String? = null)
 
 data class TokenModel(
     @SerializedName("access_token") val token: String
+)
+
+data class SocialNetworkResponse<T>(
+    val meta: MetaModel,
+    val response: T
+)
+
+data class MetaModel(
+    val code: Int
+)
+
+data class CheckinReponseModel(
+    val checkins: List<ListModel>
+)
+
+data class ListModel(
+    val count: Int,
+    val items: List<CheckinModel>
+)
+
+data class CheckinModel(
+    val id: String,
+    val createdAt: String,
+    val venue: VenueModel,
+)
+
+data class VenueModel(
+    val id: String,
+    val name: String,
 )

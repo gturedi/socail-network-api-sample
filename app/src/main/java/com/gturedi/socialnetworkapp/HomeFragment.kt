@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.gturedi.socialnetworkapp.databinding.FragmentFirstBinding
 import com.gturedi.socialnetworkapp.network.NetworkResult
@@ -14,11 +15,11 @@ import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.toast
 import kotlinx.coroutines.flow.collect
 
-class FirstFragment : BaseFragment() {
+class HomeFragment : BaseFragment() {
 
     private lateinit var binding: FragmentFirstBinding
-    //private val viewModel: MainViewModel by viewModels()
-    private val viewModel: AuthViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +35,10 @@ class FirstFragment : BaseFragment() {
 
 
         lifecycleScope.launchWhenCreated {
-            viewModel.authCode.collect {
+            authViewModel.authCode.collect {
                 toast("frg code $it")
                 //viewModel.handleAuthorizationCode(it)
-                viewModel.handleAuthorizationCode2(it).collect {
+                authViewModel.handleAuthorizationCode(it).collect {
                     when(it) {
                         is NetworkResult.Loading -> showLoading()
                         is NetworkResult.Success -> {
@@ -49,15 +50,31 @@ class FirstFragment : BaseFragment() {
                             toast("err ${it.error}")
                         }
                     }
-                    toast("frg token $it")
+                    toast("handleAuthorizationCode $it")
                 }
             }
         }
 
         binding.buttonFirst.setOnClickListener {
-            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-            //findNavController().navigate(R.id.action_FirstFragment_to_AuthFragment)
             CustomTabsIntent.Builder().build().launchUrl(requireContext(), Uri.parse(AppConst.AUTH_URL))
+        }
+        binding.buttonSecond.setOnClickListener {
+            lifecycleScope.launchWhenCreated {
+                homeViewModel.retrieveCheckins().collect {
+                    when(it) {
+                        is NetworkResult.Loading -> showLoading()
+                        is NetworkResult.Success -> {
+                            hideLoading()
+                            toast("items ${it.data}")
+                        }
+                        is NetworkResult.Failure -> {
+                            hideLoading()
+                            toast("err ${it.error}")
+                        }
+                    }
+                    toast("retrieveCheckins $it")
+                }
+            }
         }
     }
 

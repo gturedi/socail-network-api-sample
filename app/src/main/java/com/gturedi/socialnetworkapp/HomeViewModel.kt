@@ -10,20 +10,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class AuthViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
 
     private val dataRepository by lazy { DataRepository() }
 
-    private val _authCode = MutableStateFlow("")
-    public val authCode = _authCode.asStateFlow()
-
-    fun updateAuthCode(code:String) {
-        _authCode.value = code
-    }
-
-    fun handleAuthorizationCode(code: String) = flow {
+    fun retrieveCheckins() = flow {
         emit(NetworkResult.Loading)
-        val result = dataRepository.retrieveAccessToken(code)
+        val result = dataRepository.retrieveCheckins()
         emit(result)
     }
 }
