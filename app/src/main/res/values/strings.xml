@@ -11,4 +11,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="errorMessage">An error occurred please try again later</string>
+    <string name="loading">loading..</string>
 </resources>

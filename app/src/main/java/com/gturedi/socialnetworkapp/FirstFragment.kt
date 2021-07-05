@@ -2,37 +2,57 @@ package com.gturedi.socialnetworkapp
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.gturedi.socialnetworkapp.databinding.FragmentFirstBinding
+import com.gturedi.socialnetworkapp.network.NetworkResult
 import com.gturedi.socialnetworkapp.util.AppConst
+import com.gturedi.socialnetworkapp.util.toast
+import kotlinx.coroutines.flow.collect
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
-class FirstFragment : Fragment() {
+class FirstFragment : BaseFragment() {
 
-    private var _binding: FragmentFirstBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentFirstBinding
+    //private val viewModel: MainViewModel by viewModels()
+    private val viewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.authCode.collect {
+                toast("frg code $it")
+                //viewModel.handleAuthorizationCode(it)
+                viewModel.handleAuthorizationCode2(it).collect {
+                    when(it) {
+                        is NetworkResult.Loading -> showLoading()
+                        is NetworkResult.Success -> {
+                            hideLoading()
+                            toast("token ${it.data}")
+                        }
+                        is NetworkResult.Failure -> {
+                            hideLoading()
+                            toast("err ${it.error}")
+                        }
+                    }
+                    toast("frg token $it")
+                }
+            }
+        }
 
         binding.buttonFirst.setOnClickListener {
             //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
@@ -41,8 +61,4 @@ class FirstFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
