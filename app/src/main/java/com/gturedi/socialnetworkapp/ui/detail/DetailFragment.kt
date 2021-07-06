@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.gturedi.socialnetworkapp.databinding.FragmentDetailBinding
-import com.gturedi.socialnetworkapp.network.NetworkResult
+import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.ui.BaseFragment
-import com.gturedi.socialnetworkapp.ui.home.CheckinsAdapter
 import com.gturedi.socialnetworkapp.util.toast
 import kotlinx.coroutines.flow.collect
 

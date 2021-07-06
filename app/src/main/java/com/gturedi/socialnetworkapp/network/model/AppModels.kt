@@ -1,6 +1,4 @@
-package com.gturedi.socialnetworkapp.network
-
-import com.google.gson.annotations.SerializedName
+package com.gturedi.socialnetworkapp.network.model
 
 sealed class NetworkResult<out T> {
     data class Success<T>(val data: T?) : NetworkResult<T>()
@@ -15,10 +13,6 @@ sealed class NetworkResult<out T> {
         }
     }
 }
-
-data class TokenModel(
-    @SerializedName("access_token") val token: String
-)
 
 data class SocialNetworkResponse<T>(
     val meta: MetaModel,

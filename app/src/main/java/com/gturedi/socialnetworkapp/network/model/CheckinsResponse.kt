@@ -1,4 +1,4 @@
-package com.gturedi.socialnetworkapp.network
+package com.gturedi.socialnetworkapp.network.model
 
 data class CheckinReponseModel(
     val checkins: ListModel

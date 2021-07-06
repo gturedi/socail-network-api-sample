@@ -1,4 +1,5 @@
-package com.gturedi.socialnetworkapp.network
+package com.gturedi.socialnetworkapp.network.model
+
 
 data class VenueResponseModel(
     val venue: VenueModel

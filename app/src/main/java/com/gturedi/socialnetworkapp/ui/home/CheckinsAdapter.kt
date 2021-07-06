@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gturedi.socialnetworkapp.databinding.ItemCheckinBinding
-import com.gturedi.socialnetworkapp.network.CheckinModel
+import com.gturedi.socialnetworkapp.network.model.CheckinModel
 
 internal class CheckinsAdapter(
     private val onRowClick: (item: CheckinModel) -> Unit

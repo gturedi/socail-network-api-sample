@@ -1,6 +1,7 @@
 package com.gturedi.socialnetworkapp.ui
 
 import com.gturedi.socialnetworkapp.network.*
+import com.gturedi.socialnetworkapp.network.model.*
 
 class DataRepository {
 
