@@ -14,6 +14,6 @@ interface SocialNetworkService {
     suspend fun checkins(): SocialNetworkResponse<CheckinReponseModel>
 
     @GET("venues/{id}")
-    suspend fun venues(@Path("id") id: String): SocialNetworkResponse<CheckinReponseModel>
+    suspend fun venues(@Path("id") id: String): SocialNetworkResponse<VenueResponseModel>
 
 }

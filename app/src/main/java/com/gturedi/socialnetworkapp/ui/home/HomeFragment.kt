@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.NetworkResult
@@ -23,6 +22,7 @@ class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
     private val authViewModel: AuthViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+    private var checkinsAdapter: CheckinsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,13 +30,20 @@ class HomeFragment : BaseFragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.token.text = AppConst.accessToken
+
+        checkinsAdapter = CheckinsAdapter {
+            //toast("item $it")
+            //findNavController().navigate(R.id.homeToDetail)
+            //findNavController().navigate(R.id.DetailFragment, DetailFragmentArgs("4b880ac4f964a52036db31e3").toBundle())
+            findNavController().navigate(HomeFragmentDirections.homeToDetail(it.venue.id))
+        }
+        binding.items.adapter = checkinsAdapter
 
         lifecycleScope.launchWhenCreated {
             authViewModel.authCode.collect {
@@ -47,7 +54,8 @@ class HomeFragment : BaseFragment() {
                         is NetworkResult.Loading -> showLoading()
                         is NetworkResult.Success -> {
                             hideLoading()
-                            toast("token ${it.data}")
+                            //toast("token ${it.data}")
+                            //todo save to pref
                             AppConst.accessToken = it.data?.token.orEmpty()
                             binding.token.text = AppConst.accessToken
                         }
@@ -64,6 +72,7 @@ class HomeFragment : BaseFragment() {
         binding.buttonFirst.setOnClickListener {
             CustomTabsIntent.Builder().build().launchUrl(requireContext(), Uri.parse(AppConst.AUTH_URL))
         }
+
         binding.buttonSecond.setOnClickListener {
             lifecycleScope.launchWhenCreated {
                 homeViewModel.retrieveCheckins().collect {
@@ -72,23 +81,17 @@ class HomeFragment : BaseFragment() {
                         is NetworkResult.Success -> {
                             hideLoading()
                             //toast("items ${it.data}")
-                            val adapter = CheckinsAdapter {
-                                toast("item $it")
-                            }
-                            binding.items.adapter = adapter
-                            adapter.submitList(it.data?.response?.checkins?.items?.toMutableList())
+                            //todo empty list
+                            checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())
                         }
                         is NetworkResult.Failure -> {
                             hideLoading()
                             toast("err ${it.message}")
                         }
                     }
-                    toast("retrieveCheckins $it")
+                    //toast("retrieveCheckins $it")
                 }
             }
-        }
-        binding.detail.setOnClickListener {
-            findNavController().navigate(R.id.action_HomeFragment_to_DetailFragment)
         }
     }
 

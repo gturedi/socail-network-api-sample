@@ -30,22 +30,3 @@ data class MetaModel(
     val errorDetail: String?
 )
 
-data class CheckinReponseModel(
-    val checkins: ListModel
-)
-
-data class ListModel(
-    val count: Int,
-    val items: List<CheckinModel>
-)
-
-data class CheckinModel(
-    val id: String,
-    val createdAt: String,
-    val venue: VenueModel,
-)
-
-data class VenueModel(
-    val id: String,
-    val name: String,
-)

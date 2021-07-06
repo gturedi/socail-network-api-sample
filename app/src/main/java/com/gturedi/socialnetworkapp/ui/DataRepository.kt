@@ -20,7 +20,7 @@ class DataRepository {
         NetworkResult.Failure(e.message)
     }
 
-    suspend fun retrieveVenue(id:String): NetworkResult<SocialNetworkResponse<CheckinReponseModel>> = try {
+    suspend fun retrieveVenue(id:String): NetworkResult<SocialNetworkResponse<VenueResponseModel>> = try {
         val result = service.venues(id)
         NetworkResult.Success(result)
     } catch (e:Exception) {

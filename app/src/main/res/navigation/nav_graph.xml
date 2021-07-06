@@ -11,11 +11,21 @@
         android:label="home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_HomeFragment_to_DetailFragment"
-            app:destination="@id/DetailFragment" />
+            android:id="@+id/homeToDetail"
+            app:destination="@id/DetailFragment">
+            <argument
+                android:name="itemId"
+                app:argType="string"
+                android:defaultValue="abc123"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/DetailFragment"
         android:name="com.gturedi.socialnetworkapp.ui.detail.DetailFragment"
-        android:label="detail"></fragment>
+        android:label="detail">
+        <argument
+            android:name="itemId"
+            app:argType="string"
+            android:defaultValue="abc123"/>
+    </fragment>
 </navigation>
