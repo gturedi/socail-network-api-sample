@@ -40,6 +40,8 @@ class DetailFragment : BaseFragment() {
                         it.data?.response?.venue?.let { x ->
                             binding.name.text = x.name
                             binding.url.text = x.url
+                            binding.canonicalUrl.text = x.canonicalUrl
+                            binding.categories.text = x.categories.joinToString(", ") { y -> y.name }
                         }
                     }
                     is NetworkResult.Failure -> {
@@ -47,7 +49,7 @@ class DetailFragment : BaseFragment() {
                         toast("err ${it.message}")
                     }
                 }
-                toast("retrieveVenue $it")
+                //toast("retrieveVenue $it")
             }
         }
     }

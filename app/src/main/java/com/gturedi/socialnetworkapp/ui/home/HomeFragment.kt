@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
@@ -59,6 +60,7 @@ class HomeFragment : BaseFragment() {
             findNavController().navigate(HomeFragmentDirections.homeToDetail(it.venue.id))
         }
         binding.items.adapter = checkinsAdapter
+        binding.items.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         lifecycleScope.launchWhenCreated {
             authViewModel.authCode.collect {

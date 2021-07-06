@@ -10,14 +10,13 @@ import androidx.activity.viewModels
 import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.ActivityMainBinding
 import com.gturedi.socialnetworkapp.ui.home.AuthViewModel
+import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 
 class MainActivity : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
-    //private val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
     private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +31,7 @@ class MainActivity : BaseActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-
+        log("token ${PrefService.accessToken()}")
     }
 
     override fun onNewIntent(intent: Intent?) {

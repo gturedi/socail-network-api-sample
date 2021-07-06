@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="@dimen/marginMedium"
     tools:context=".ui.home.HomeFragment">
 
     <TextView
@@ -23,7 +23,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/marginSmall"
         tools:text="http://kanaatlokantasi.com.tr" />
+
+    <TextView
+        android:id="@+id/canonicalUrl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/url"
+        android:layout_marginTop="@dimen/marginSmall"
+        tools:text="http://foursquare.com.tr/venue/abc" />
+
+    <TextView
+        android:id="@+id/categories"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/canonicalUrl"
+        android:layout_marginTop="@dimen/marginSmall"
+        tools:text="steak, burger" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
