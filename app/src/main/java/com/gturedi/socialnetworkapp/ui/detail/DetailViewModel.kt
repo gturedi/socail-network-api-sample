@@ -1,7 +1,7 @@
 package com.gturedi.socialnetworkapp.ui.detail
 
 import androidx.lifecycle.ViewModel
-import com.gturedi.socialnetworkapp.ui.DataRepository
+import com.gturedi.socialnetworkapp.network.DataRepository
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import kotlinx.coroutines.flow.flow
 

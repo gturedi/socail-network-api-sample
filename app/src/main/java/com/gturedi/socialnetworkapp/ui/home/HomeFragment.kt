@@ -14,6 +14,7 @@ import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.util.AppConst
+import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.toast
 import kotlinx.coroutines.flow.collect
 
@@ -35,7 +36,21 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.token.text = AppConst.accessToken
+        binding.login.text = if (PrefService.accessToken().isNullOrBlank()) "login" else "logout"
+        binding.login.setOnClickListener {
+            if (PrefService.accessToken().isNullOrBlank()){
+                val intent = CustomTabsIntent.Builder().build()
+                intent.launchUrl(requireContext(), Uri.parse(AppConst.AUTH_URL))
+            } else {
+                PrefService.accessToken("")
+                binding.login.text = "login"
+                checkinsAdapter?.submitList(mutableListOf())
+            }
+        }
+
+        if (PrefService.accessToken().isNullOrBlank().not()) {
+            getCheckins()
+        }
 
         checkinsAdapter = CheckinsAdapter {
             //toast("item $it")
@@ -47,7 +62,7 @@ class HomeFragment : BaseFragment() {
 
         lifecycleScope.launchWhenCreated {
             authViewModel.authCode.collect {
-                toast("frg code $it")
+                //toast("frg code $it")
                 //viewModel.handleAuthorizationCode(it)
                 authViewModel.handleAuthorizationCode(it).collect {
                     when(it) {
@@ -55,42 +70,39 @@ class HomeFragment : BaseFragment() {
                         is NetworkResult.Success -> {
                             hideLoading()
                             //toast("token ${it.data}")
-                            //todo save to pref
-                            AppConst.accessToken = it.data?.token.orEmpty()
-                            binding.token.text = AppConst.accessToken
+                            //AppConst.accessToken = it.data?.token.orEmpty()
+                            PrefService.accessToken( it.data?.token.orEmpty())
+                            binding.login.text = "logout"
+                            getCheckins()
                         }
                         is NetworkResult.Failure -> {
                             hideLoading()
                             toast("err ${it.message}")
                         }
                     }
-                    toast("handleAuthorizationCode $it")
+                    //toast("handleAuthorizationCode $it")
                 }
             }
         }
+    }
 
-        binding.buttonFirst.setOnClickListener {
-            CustomTabsIntent.Builder().build().launchUrl(requireContext(), Uri.parse(AppConst.AUTH_URL))
-        }
-
-        binding.buttonSecond.setOnClickListener {
-            lifecycleScope.launchWhenCreated {
-                homeViewModel.retrieveCheckins().collect {
-                    when(it) {
-                        is NetworkResult.Loading -> showLoading()
-                        is NetworkResult.Success -> {
-                            hideLoading()
-                            //toast("items ${it.data}")
-                            //todo empty list
-                            checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())
-                        }
-                        is NetworkResult.Failure -> {
-                            hideLoading()
-                            toast("err ${it.message}")
-                        }
+    private fun getCheckins() {
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.retrieveCheckins().collect {
+                when (it) {
+                    is NetworkResult.Loading -> showLoading()
+                    is NetworkResult.Success -> {
+                        hideLoading()
+                        //toast("items ${it.data}")
+                        //todo empty list
+                        checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())
                     }
-                    //toast("retrieveCheckins $it")
+                    is NetworkResult.Failure -> {
+                        hideLoading()
+                        toast("err ${it.message}")
+                    }
                 }
+                //toast("retrieveCheckins $it")
             }
         }
     }

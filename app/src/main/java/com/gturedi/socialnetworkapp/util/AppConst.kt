@@ -21,5 +21,4 @@ object AppConst {
 
     const val API_VERS = "20190425"
 
-    var accessToken = ""
 }

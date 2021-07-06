@@ -3,6 +3,7 @@ package com.gturedi.socialnetworkapp.network
 import com.google.gson.GsonBuilder
 import com.gturedi.socialnetworkapp.BuildConfig
 import com.gturedi.socialnetworkapp.util.AppConst
+import com.gturedi.socialnetworkapp.util.PrefService
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -25,7 +26,7 @@ object SocialNetworkApi {
                 val originalHttpUrl: HttpUrl = original.url()
 
                 val url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("oauth_token", AppConst.accessToken)
+                    .addQueryParameter("oauth_token", PrefService.accessToken())
                     .addQueryParameter("v", AppConst.API_VERS)
                     .build()
 

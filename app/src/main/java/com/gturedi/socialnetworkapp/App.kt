@@ -5,7 +5,7 @@ import android.app.Application
 class App : Application() {
 
     companion object {
-        lateinit var ctx:App
+        var ctx: App? = null
     }
 
     override fun onCreate() {

@@ -1,4 +1,4 @@
-package com.gturedi.socialnetworkapp.ui
+package com.gturedi.socialnetworkapp.network
 
 import com.gturedi.socialnetworkapp.network.*
 import com.gturedi.socialnetworkapp.network.model.*
