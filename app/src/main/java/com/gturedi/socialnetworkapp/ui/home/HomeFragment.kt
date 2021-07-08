@@ -64,7 +64,8 @@ class HomeFragment : BaseFragment() {
 
         lifecycleScope.launchWhenCreated {
             authViewModel.authCode.collect {
-                handleAuthorizationCode(it)
+                if (it.isNullOrBlank().not())
+                    handleAuthorizationCode(it)
             }
         }
     }

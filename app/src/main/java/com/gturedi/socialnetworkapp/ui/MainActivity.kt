@@ -18,6 +18,7 @@ class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private val viewModel: AuthViewModel by viewModels()
+    private val KEY_CODE = "code"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class MainActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val code = intent?.data?.getQueryParameter("code")
+        val code = intent?.data?.getQueryParameter(KEY_CODE)
         log("code $code")
         viewModel.updateAuthCode(code.orEmpty())
     }

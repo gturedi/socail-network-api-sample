@@ -37,18 +37,15 @@ class DetailFragment : BaseFragment() {
         lifecycleScope.launchWhenCreated {
             detailViewModel.retrieveVenue(args.itemId).collect {
                 when(it) {
-                    is NetworkResult.Loading -> showLoading()
+                    is NetworkResult.Loading -> binding.stateful.showLoading()
                     is NetworkResult.Success -> {
-                        hideLoading()
-                        //toast("items ${it.data}")
+                        binding.stateful.showContent()
                         bindData(it)
                     }
                     is NetworkResult.Failure -> {
-                        hideLoading()
-                        toast("err ${it.message}")
+                        binding.stateful.showError(it.message, null)
                     }
                 }
-                //toast("retrieveVenue $it")
             }
         }
     }
