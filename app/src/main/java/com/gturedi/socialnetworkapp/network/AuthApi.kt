@@ -3,17 +3,14 @@ package com.gturedi.socialnetworkapp.network
 import com.google.gson.GsonBuilder
 import com.gturedi.socialnetworkapp.BuildConfig
 import com.gturedi.socialnetworkapp.util.AppConst
-import com.gturedi.socialnetworkapp.util.PrefService
-import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-object SocialNetworkApi {
+object AuthApi {
 
     private val httpClient:OkHttpClient by lazy {
         OkHttpClient.Builder()
@@ -21,32 +18,18 @@ object SocialNetworkApi {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             })
-            .addInterceptor {
-                val original: Request = it.request()
-                val originalHttpUrl: HttpUrl = original.url()
-
-                val url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("oauth_token", PrefService.accessToken())
-                    .addQueryParameter("v", AppConst.API_VERS)
-                    .build()
-
-                val requestBuilder = original.newBuilder().url(url)
-
-                val request = requestBuilder.build()
-                it.proceed(request)
-            }
             .build()
     }
 
-    val service: SocialNetworkService by lazy {
+    val service: AuthService by lazy {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(AppConst.SERVICE_URL_SOCIAL_NETWORK)
+            .baseUrl(AppConst.SERVICE_URL_AUTH)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             //.addCallAdapterFactory(PazaramaNetworkCallAdapterFactory())
             .client(httpClient)
             .build()
 
-        retrofit.create(SocialNetworkService::class.java)
+        retrofit.create(AuthService::class.java)
     }
 
 }

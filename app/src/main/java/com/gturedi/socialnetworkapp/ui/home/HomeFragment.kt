@@ -17,7 +17,6 @@ import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.PrefService
-import com.gturedi.socialnetworkapp.util.toast
 import kotlinx.coroutines.flow.collect
 
 class HomeFragment : BaseFragment() {
@@ -42,7 +41,7 @@ class HomeFragment : BaseFragment() {
         binding.login.setOnClickListener {
             if (PrefService.accessToken().isNullOrBlank()) {
                 val intent = CustomTabsIntent.Builder().build()
-                intent.launchUrl(requireContext(), Uri.parse(AppConst.AUTH_URL))
+                intent.launchUrl(requireContext(), Uri.parse(AppConst.URL_AUTH))
             } else {
                 PrefService.accessToken("")
                 binding.login.text = getString(R.string.login)
@@ -87,7 +86,6 @@ class HomeFragment : BaseFragment() {
                     }
                 }
             }
-            //toast("handleAuthorizationCode $it")
         }
     }
 
@@ -112,7 +110,6 @@ class HomeFragment : BaseFragment() {
                         }
                     }
                 }
-                //toast("retrieveCheckins $it")
             }
         }
     }

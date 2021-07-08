@@ -1,18 +1,10 @@
 package com.gturedi.socialnetworkapp.network
 
-import com.gturedi.socialnetworkapp.network.*
 import com.gturedi.socialnetworkapp.network.model.*
 
-class DataRepository {
+class SocialNetworkRepository {
 
-    val service by lazy { SocialNetworkApi.socialNetworkService }
-
-    suspend fun retrieveAccessToken(code: String): NetworkResult<TokenModel> = try {
-        val result = service.accessToken(code)
-        NetworkResult.Success(result)
-    } catch (e:Exception) {
-        NetworkResult.Failure(e.message)
-    }
+    private val service by lazy { SocialNetworkApi.service }
 
     suspend fun retrieveCheckins(): NetworkResult<SocialNetworkResponse<CheckinReponseModel>> = try {
         val result = service.checkins()

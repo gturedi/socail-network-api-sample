@@ -11,9 +11,6 @@ import retrofit2.http.Query
 
 interface SocialNetworkService {
 
-    @GET("${AppConst.TOKEN_URL}")
-    suspend fun accessToken(@Query("code") code: String): TokenModel
-
     @GET("users/self/checkins")
     suspend fun checkins(): SocialNetworkResponse<CheckinReponseModel>
 

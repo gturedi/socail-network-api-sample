@@ -1,0 +1,19 @@
+package com.gturedi.socialnetworkapp.network
+
+import com.gturedi.socialnetworkapp.network.model.TokenModel
+import com.gturedi.socialnetworkapp.util.AppConst
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface AuthService {
+
+    @GET(AppConst.SERVICE_URL_AUTH)
+    suspend fun accessToken(
+        @Query("client_id") client_id: String,
+        @Query("client_secret") client_secret: String,
+        @Query("redirect_uri") redirect_uri: String,
+        @Query("grant_type") grant_type: String,
+        @Query("code") code: String
+    ): TokenModel
+
+}
