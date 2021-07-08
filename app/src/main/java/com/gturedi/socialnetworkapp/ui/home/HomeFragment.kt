@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
@@ -37,14 +38,14 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.login.text = if (PrefService.accessToken().isNullOrBlank()) "login" else "logout"
+        binding.login.text = getString(if (PrefService.accessToken().isNullOrBlank()) R.string.login else R.string.logout)
         binding.login.setOnClickListener {
-            if (PrefService.accessToken().isNullOrBlank()){
+            if (PrefService.accessToken().isNullOrBlank()) {
                 val intent = CustomTabsIntent.Builder().build()
                 intent.launchUrl(requireContext(), Uri.parse(AppConst.AUTH_URL))
             } else {
                 PrefService.accessToken("")
-                binding.login.text = "login"
+                binding.login.text = getString(R.string.login)
                 checkinsAdapter?.submitList(mutableListOf())
             }
         }
@@ -54,7 +55,6 @@ class HomeFragment : BaseFragment() {
         }
 
         checkinsAdapter = CheckinsAdapter {
-            //toast("item $it")
             //findNavController().navigate(R.id.homeToDetail)
             //findNavController().navigate(R.id.DetailFragment, DetailFragmentArgs("4b880ac4f964a52036db31e3").toBundle())
             findNavController().navigate(HomeFragmentDirections.homeToDetail(it.venue.id))
@@ -64,27 +64,29 @@ class HomeFragment : BaseFragment() {
 
         lifecycleScope.launchWhenCreated {
             authViewModel.authCode.collect {
-                //toast("frg code $it")
-                //viewModel.handleAuthorizationCode(it)
-                authViewModel.handleAuthorizationCode(it).collect {
-                    when(it) {
-                        is NetworkResult.Loading -> showLoading()
-                        is NetworkResult.Success -> {
-                            hideLoading()
-                            //toast("token ${it.data}")
-                            //AppConst.accessToken = it.data?.token.orEmpty()
-                            PrefService.accessToken( it.data?.token.orEmpty())
-                            binding.login.text = "logout"
-                            getCheckins()
-                        }
-                        is NetworkResult.Failure -> {
-                            hideLoading()
-                            toast("err ${it.message}")
+                handleAuthorizationCode(it)
+            }
+        }
+    }
+
+    private suspend fun handleAuthorizationCode(code: String) {
+        authViewModel.handleAuthorizationCode(code).collect {
+            when (it) {
+                is NetworkResult.Loading -> binding.stateful.showLoading()
+                is NetworkResult.Success -> {
+                    PrefService.accessToken(it.data?.token.orEmpty())
+                    binding.login.text = getString(R.string.logout)
+                    getCheckins()
+                }
+                is NetworkResult.Failure -> {
+                    binding.stateful.showError(it.message.orEmpty()) {
+                        lifecycleScope.launchWhenCreated {
+                            handleAuthorizationCode(code)
                         }
                     }
-                    //toast("handleAuthorizationCode $it")
                 }
             }
+            //toast("handleAuthorizationCode $it")
         }
     }
 
@@ -92,16 +94,21 @@ class HomeFragment : BaseFragment() {
         lifecycleScope.launchWhenCreated {
             homeViewModel.retrieveCheckins().collect {
                 when (it) {
-                    is NetworkResult.Loading -> showLoading()
+                    is NetworkResult.Loading -> binding.stateful.showLoading()
                     is NetworkResult.Success -> {
-                        hideLoading()
-                        //toast("items ${it.data}")
-                        //todo empty list
-                        checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())
+                        if (it.data?.response?.checkins?.items?.isNullOrEmpty() == true) {
+                            binding.stateful.showError(R.string.errorMessage) {
+                                getCheckins()
+                            }
+                        } else {
+                            binding.stateful.showContent()
+                            checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())
+                        }
                     }
                     is NetworkResult.Failure -> {
-                        hideLoading()
-                        toast("err ${it.message}")
+                        binding.stateful.showError(it.message.orEmpty()) {
+                            getCheckins()
+                        }
                     }
                 }
                 //toast("retrieveCheckins $it")

@@ -3,4 +3,6 @@
     <string name="first_fragment_label">First Fragment</string>
     <string name="errorMessage">An error occurred please try again later</string>
     <string name="loading">loading..</string>
+    <string name="login">login</string>
+    <string name="logout">logout</string>
 </resources>
