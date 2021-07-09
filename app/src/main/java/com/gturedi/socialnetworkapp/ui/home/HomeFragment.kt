@@ -1,11 +1,9 @@
 package com.gturedi.socialnetworkapp.ui.home
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +15,7 @@ import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.PrefService
+import com.gturedi.socialnetworkapp.util.openCustomTab
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,8 +75,7 @@ class HomeFragment : BaseFragment() {
         login.text = getString(if (PrefService.accessToken().isNullOrBlank()) R.string.login else R.string.logout)
         login.setOnClickListener {
             if (PrefService.accessToken().isNullOrBlank()) {
-                val intent = CustomTabsIntent.Builder().build()
-                intent.launchUrl(requireContext(), Uri.parse(AppConst.URL_AUTH))
+                context?.openCustomTab(AppConst.URL_AUTH)
             } else {
                 PrefService.accessToken("")
                 login.text = getString(R.string.login)

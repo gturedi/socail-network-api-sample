@@ -4,9 +4,11 @@ package com.gturedi.socialnetworkapp.util
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 fun View.show(duration: Long = 10L) {
     visibility = View.VISIBLE
@@ -30,3 +32,7 @@ fun View.hide(duration: Long = 10L) {
 
 internal fun ViewGroup.inflate(layoutRes: Int) =
     LayoutInflater.from(context).inflate(layoutRes, this, false)
+
+fun TextView.underline() {
+    this.paintFlags = this.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+}

@@ -12,6 +12,8 @@ import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
 import com.gturedi.socialnetworkapp.ui.BaseFragment
+import com.gturedi.socialnetworkapp.util.openCustomTab
+import com.gturedi.socialnetworkapp.util.underline
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +36,7 @@ class DetailFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         detailViewModel.revenue.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 is NetworkResult.Loading -> binding.stateful.showLoading()
                 is NetworkResult.Success -> {
                     binding.stateful.showContent()
@@ -58,7 +60,12 @@ class DetailFragment : BaseFragment() {
                     .into(binding.image)
 
                 name.text = x.name
+
                 canonicalUrl.text = x.canonicalUrl
+                canonicalUrl.underline()
+                canonicalUrl.setOnClickListener {
+                    context?.openCustomTab(x.canonicalUrl.orEmpty())
+                }
                 categories.text = x.categories()
             }
         }
