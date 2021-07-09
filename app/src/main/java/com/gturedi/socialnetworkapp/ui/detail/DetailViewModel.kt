@@ -1,17 +1,23 @@
 package com.gturedi.socialnetworkapp.ui.detail
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
-import com.gturedi.socialnetworkapp.network.model.CheckinReponseModel
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
 import com.gturedi.socialnetworkapp.util.log
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(private val repository: SocialNetworkRepository) : ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    private val repository: SocialNetworkRepository
+) : ViewModel() {
 
     private val _revenue = MutableLiveData<NetworkResult<SocialNetworkResponse<VenueResponseModel>>>()
     val revenue: LiveData<NetworkResult<SocialNetworkResponse<VenueResponseModel>>> get() = _revenue
@@ -29,8 +35,4 @@ class DetailViewModel(private val repository: SocialNetworkRepository) : ViewMod
             }
         }
     }
-}
-
-class DetailViewModelFactory(private val repository: SocialNetworkRepository): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>) = DetailViewModel(repository) as T
 }

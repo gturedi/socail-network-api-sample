@@ -8,29 +8,23 @@ import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.gturedi.socialnetworkapp.R
-import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
-import com.gturedi.socialnetworkapp.network.AuthRepository
-import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
+import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.PrefService
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val authViewModel: AuthViewModel by activityViewModels {
-        AuthViewModelFactory(AuthRepository())
-    }
-    private val homeViewModel: HomeViewModel by viewModels{
-        HomeViewModelFactory(SocialNetworkRepository())
-    }
+    private val authViewModel: AuthViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private var checkinsAdapter: CheckinsAdapter? = null
 
     override fun onCreateView(

@@ -2,27 +2,24 @@ package com.gturedi.socialnetworkapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
 import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.ActivityMainBinding
-import com.gturedi.socialnetworkapp.network.AuthRepository
 import com.gturedi.socialnetworkapp.ui.home.AuthViewModel
-import com.gturedi.socialnetworkapp.ui.home.AuthViewModelFactory
 import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: AuthViewModel by viewModels() {
-        AuthViewModelFactory(AuthRepository())
-    }
+    private val viewModel: AuthViewModel by viewModels()
     private val KEY_CODE = "code"
 
     override fun onCreate(savedInstanceState: Bundle?) {

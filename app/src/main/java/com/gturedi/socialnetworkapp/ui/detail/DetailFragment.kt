@@ -5,31 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.FragmentDetailBinding
-import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
 import com.gturedi.socialnetworkapp.ui.BaseFragment
-import com.gturedi.socialnetworkapp.util.toast
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDetailBinding
-    private val detailViewModel: DetailViewModel by viewModels {
-        DetailViewModelFactory(SocialNetworkRepository())
-    }
+    private val detailViewModel: DetailViewModel by viewModels()
     private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
