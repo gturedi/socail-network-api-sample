@@ -1,0 +1,4 @@
+https://tr.foursquare.com/developers/apps/
+
+https://developer.foursquare.com/docs/places-api/authentication/
+

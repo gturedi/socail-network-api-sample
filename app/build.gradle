@@ -48,6 +48,7 @@ ext {
     material_version = "1.3.0"
     picasso_version = "2.8"
     stateful_version = "1.2.2"
+    lifecycle_version = "2.3.1"
 }
 
 dependencies {
@@ -72,4 +73,10 @@ dependencies {
     implementation ("com.github.gturedi:StatefulLayout:$stateful_version"){
         exclude  group:'com.android.support', module:'support-compat'
     }
+
+
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 }

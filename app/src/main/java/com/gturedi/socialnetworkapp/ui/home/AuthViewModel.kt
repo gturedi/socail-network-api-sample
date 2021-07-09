@@ -1,31 +1,35 @@
 package com.gturedi.socialnetworkapp.ui.home
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.gturedi.socialnetworkapp.network.AuthRepository
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
+import com.gturedi.socialnetworkapp.ui.detail.DetailViewModel
+import com.gturedi.socialnetworkapp.util.log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
 
-    private val repository by lazy { AuthRepository() }
+    private val _authCode = MutableLiveData<String>()
+    val authCode: LiveData<String> get() = _authCode
 
-    private val _authCode = MutableStateFlow("")
-    public val authCode = _authCode.asStateFlow()
+    init {
+        log("AuthViewModel init")
+    }
 
     fun updateAuthCode(code:String) {
         _authCode.value = code
     }
 
-    fun handleAuthorizationCode(code: String?) = flow {
-        if (code.isNullOrBlank()) {
-            emit(NetworkResult.Failure("code empty"))
-        } else {
-            emit(NetworkResult.Loading)
-            val result = repository.retrieveAccessToken(code)
-            emit(result)
-        }
+    fun handleAuthorizationCode(code: String?) = liveData {
+        emit(NetworkResult.Loading)
+        val result = repository.retrieveAccessToken(code.orEmpty())
+        emit(result)
     }
+}
+
+class AuthViewModelFactory(private val repository: AuthRepository): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>) = AuthViewModel(repository) as T
 }

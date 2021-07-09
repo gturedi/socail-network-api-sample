@@ -23,7 +23,7 @@ object AuthApi {
 
     val service: AuthService by lazy {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(AppConst.SERVICE_URL_AUTH)
+            .baseUrl(AppConst.URL_BASE)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             //.addCallAdapterFactory(PazaramaNetworkCallAdapterFactory())
             .client(httpClient)

@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.FragmentDetailBinding
+import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
@@ -20,7 +21,9 @@ import kotlinx.coroutines.flow.collect
 class DetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDetailBinding
-    private val detailViewModel: DetailViewModel by viewModels()
+    private val detailViewModel: DetailViewModel by viewModels {
+        DetailViewModelFactory(SocialNetworkRepository())
+    }
     private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -34,20 +37,19 @@ class DetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenCreated {
-            detailViewModel.retrieveVenue(args.itemId).collect {
-                when(it) {
-                    is NetworkResult.Loading -> binding.stateful.showLoading()
-                    is NetworkResult.Success -> {
-                        binding.stateful.showContent()
-                        bindData(it)
-                    }
-                    is NetworkResult.Failure -> {
-                        binding.stateful.showError(it.message, null)
-                    }
+        detailViewModel.revenue.observe(viewLifecycleOwner) {
+            when(it) {
+                is NetworkResult.Loading -> binding.stateful.showLoading()
+                is NetworkResult.Success -> {
+                    binding.stateful.showContent()
+                    bindData(it)
+                }
+                is NetworkResult.Failure -> {
+                    binding.stateful.showError(it.message, null)
                 }
             }
         }
+        detailViewModel.retrieveVenue(args.itemId)
     }
 
     private fun bindData(it: NetworkResult.Success<SocialNetworkResponse<VenueResponseModel>>) {

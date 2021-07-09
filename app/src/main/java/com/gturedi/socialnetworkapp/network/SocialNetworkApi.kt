@@ -40,7 +40,7 @@ object SocialNetworkApi {
 
     val service: SocialNetworkService by lazy {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(AppConst.SERVICE_URL_SOCIAL_NETWORK)
+            .baseUrl(AppConst.URL_API)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             //.addCallAdapterFactory(PazaramaNetworkCallAdapterFactory())
             .client(httpClient)

@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface AuthService {
 
-    @GET(AppConst.SERVICE_URL_AUTH)
+    @GET("access_token")
     suspend fun accessToken(
         @Query("client_id") client_id: String,
         @Query("client_secret") client_secret: String,
