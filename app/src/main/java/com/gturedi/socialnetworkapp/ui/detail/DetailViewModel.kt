@@ -30,9 +30,7 @@ class DetailViewModel @Inject constructor(
         _revenue.value = NetworkResult.Loading
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.retrieveVenue(id)
-            viewModelScope.launch(Dispatchers.Main) {
-                _revenue.value = result
-            }
+            _revenue.postValue(result)
         }
     }
 }

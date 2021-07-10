@@ -30,9 +30,7 @@ class HomeViewModel @Inject constructor(
         _checkins.value = NetworkResult.Loading
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.retrieveCheckins()
-            viewModelScope.launch(Dispatchers.Main) {
-                _checkins.value = result
-            }
+            _checkins.postValue(result)
         }
     }
 }

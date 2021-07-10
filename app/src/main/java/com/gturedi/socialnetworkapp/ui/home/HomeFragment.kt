@@ -14,7 +14,6 @@ import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
 import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.util.AppConst
-import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.openCustomTab
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +38,7 @@ class HomeFragment : BaseFragment() {
 
         init()
 
-        if (PrefService.accessToken().isNullOrBlank().not()) {
+        if (authViewModel.getAccessToken().isNullOrBlank().not()) {
             homeViewModel.retrieveCheckins()
         }
 
@@ -72,12 +71,12 @@ class HomeFragment : BaseFragment() {
     }
 
     fun init() = with(binding) {
-        login.text = getString(if (PrefService.accessToken().isNullOrBlank()) R.string.login else R.string.logout)
+        login.text = getString(if (authViewModel.getAccessToken().isNullOrBlank()) R.string.login else R.string.logout)
         login.setOnClickListener {
-            if (PrefService.accessToken().isNullOrBlank()) {
+            if (authViewModel.getAccessToken().isNullOrBlank()) {
                 context?.openCustomTab(AppConst.URL_AUTH)
             } else {
-                PrefService.accessToken("")
+                authViewModel.setAccessToken("")
                 login.text = getString(R.string.login)
                 checkinsAdapter?.submitList(mutableListOf())
             }
@@ -97,7 +96,7 @@ class HomeFragment : BaseFragment() {
             when (it) {
                 is NetworkResult.Loading -> binding.stateful.showLoading()
                 is NetworkResult.Success -> {
-                    PrefService.accessToken(it.data?.token.orEmpty())
+                    authViewModel.setAccessToken(it.data?.token.orEmpty())
                     binding.login.text = getString(R.string.logout)
                     homeViewModel.retrieveCheckins()
                 }

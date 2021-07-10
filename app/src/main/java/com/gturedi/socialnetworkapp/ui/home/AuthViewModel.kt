@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.gturedi.socialnetworkapp.network.AuthRepository
 import com.gturedi.socialnetworkapp.network.model.NetworkResult
+import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
+    private val prefService: PrefService,
     private val repository: AuthRepository
 ) : ViewModel() {
 
@@ -31,4 +33,8 @@ class AuthViewModel @Inject constructor(
         val result = repository.retrieveAccessToken(code.orEmpty())
         emit(result)
     }
+
+    fun setAccessToken(value: String) = prefService.accessToken(value)
+
+    fun getAccessToken() = prefService.accessToken()
 }

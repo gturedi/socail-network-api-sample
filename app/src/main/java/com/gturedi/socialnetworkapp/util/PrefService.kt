@@ -1,14 +1,15 @@
 package com.gturedi.socialnetworkapp.util
 
-import android.content.Context
-import com.gturedi.socialnetworkapp.App
+import android.content.SharedPreferences
+import javax.inject.Inject
 
-object PrefService {
+class PrefService @Inject constructor(
+    private val prefs: SharedPreferences
+) {
 
-    private val prefs = App.ctx?.getSharedPreferences("pref", Context.MODE_PRIVATE)
-    private const val KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN"
+    private val KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN"
 
-    fun accessToken(value: String) = prefs?.edit()?.putString(KEY_ACCESS_TOKEN, value)?.apply()
-    fun accessToken() = prefs?.getString(KEY_ACCESS_TOKEN, "")
+    fun accessToken(value: String) = prefs.edit()?.putString(KEY_ACCESS_TOKEN, value)?.apply()
+    fun accessToken() = prefs.getString(KEY_ACCESS_TOKEN, "")
 
 }

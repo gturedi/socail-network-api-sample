@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.ActivityMainBinding
 import com.gturedi.socialnetworkapp.ui.home.AuthViewModel
-import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +33,7 @@ class MainActivity : BaseActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        log("token ${PrefService.accessToken()}")
+        log("token ${viewModel.getAccessToken()}")
     }
 
     override fun onNewIntent(intent: Intent?) {
