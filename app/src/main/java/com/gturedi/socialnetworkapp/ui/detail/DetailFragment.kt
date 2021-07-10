@@ -34,6 +34,7 @@ class DetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        detailViewModel.revenueId = args.itemId
         detailViewModel.revenue.observe(viewLifecycleOwner) {
             when (it) {
                 is NetworkResult.Loading -> binding.stateful.showLoading()
@@ -46,23 +47,22 @@ class DetailFragment : BaseFragment() {
                 }
             }
         }
-        detailViewModel.retrieveVenue(args.itemId)
+        //detailViewModel.retrieveVenue()
     }
 
     private fun bindData(it: NetworkResult.Success<SocialNetworkResponse<VenueResponseModel>>) {
         it.data?.response?.venue?.let { x ->
             with(binding) {
-                image.loadImageUrl(x.imageUrl())
-                name.text = x.name
+                coverIv.loadImageUrl(x.imageUrl())
+                nameTv.text = x.name
 
-                canonicalUrl.text = x.canonicalUrl
-                canonicalUrl.underline()
-                canonicalUrl.setOnClickListener {
+                canonicalUrlTv.text = x.canonicalUrl
+                canonicalUrlTv.underline()
+                canonicalUrlTv.setOnClickListener {
                     context?.openCustomTab(x.canonicalUrl.orEmpty())
                 }
-                categories.text = x.categories()
+                categoriesTv.text = x.categories()
             }
         }
     }
-
 }

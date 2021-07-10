@@ -1,6 +1,5 @@
 package com.gturedi.socialnetworkapp.ui.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -18,7 +17,7 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _authCode = MutableLiveData<String>()
-    val authCode: LiveData<String> get() = _authCode
+    val authCode get() = _authCode
 
     init {
         log("AuthViewModel init")

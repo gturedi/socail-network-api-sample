@@ -16,13 +16,13 @@
         tools:context=".ui.home.HomeFragment">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/coverIv"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:src="@drawable/ic_baseline_arrow_circle_down_24" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/nameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginSmall"
@@ -30,14 +30,14 @@
             tools:text="kanaat lokantsı" />
 
         <TextView
-            android:id="@+id/categories"
+            android:id="@+id/categoriesTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginSmall"
             tools:text="steak, burger" />
 
         <TextView
-            android:id="@+id/canonicalUrl"
+            android:id="@+id/canonicalUrlTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginSmall"

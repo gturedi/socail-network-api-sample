@@ -15,7 +15,7 @@
         tools:context=".ui.home.HomeFragment">
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/loginBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/items"
+            android:id="@+id/itemsRv"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/marginMedium"
@@ -33,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login"
+            app:layout_constraintTop_toBottomOf="@id/loginBtn"
             tools:listitem="@layout/item_checkin" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,17 +38,13 @@ class HomeFragment : BaseFragment() {
 
         init()
 
-        if (authViewModel.getAccessToken().isNullOrBlank().not()) {
-            homeViewModel.retrieveCheckins()
-        }
-
         homeViewModel.checkins.observe(viewLifecycleOwner) {
             when (it) {
                 is NetworkResult.Loading -> binding.stateful.showLoading()
                 is NetworkResult.Success -> {
                     if (it.data?.response?.checkins?.items?.isNullOrEmpty() == true) {
                         binding.stateful.showError(R.string.errorMessage) {
-                            homeViewModel.retrieveCheckins()
+                            homeViewModel.checkins
                         }
                     } else {
                         binding.stateful.showContent()
@@ -57,7 +53,7 @@ class HomeFragment : BaseFragment() {
                 }
                 is NetworkResult.Failure -> {
                     binding.stateful.showError(it.message.orEmpty()) {
-                        homeViewModel.retrieveCheckins()
+                        homeViewModel.checkins
                     }
                 }
             }
@@ -71,13 +67,13 @@ class HomeFragment : BaseFragment() {
     }
 
     fun init() = with(binding) {
-        login.text = getString(if (authViewModel.getAccessToken().isNullOrBlank()) R.string.login else R.string.logout)
-        login.setOnClickListener {
+        loginBtn.text = getString(if (authViewModel.getAccessToken().isNullOrBlank()) R.string.login else R.string.logout)
+        loginBtn.setOnClickListener {
             if (authViewModel.getAccessToken().isNullOrBlank()) {
                 context?.openCustomTab(AppConst.URL_AUTH)
             } else {
                 authViewModel.setAccessToken("")
-                login.text = getString(R.string.login)
+                loginBtn.text = getString(R.string.login)
                 checkinsAdapter?.submitList(mutableListOf())
             }
         }
@@ -87,8 +83,9 @@ class HomeFragment : BaseFragment() {
             //findNavController().navigate(R.id.DetailFragment, DetailFragmentArgs("4b880ac4f964a52036db31e3").toBundle())
             findNavController().navigate(HomeFragmentDirections.homeToDetail(it.venue.id))
         }
-        items.adapter = checkinsAdapter
-        items.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        itemsRv.setHasFixedSize(true)
+        itemsRv.adapter = checkinsAdapter
+        itemsRv.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 
     private fun handleAuthorizationCode(code: String) {
@@ -97,8 +94,8 @@ class HomeFragment : BaseFragment() {
                 is NetworkResult.Loading -> binding.stateful.showLoading()
                 is NetworkResult.Success -> {
                     authViewModel.setAccessToken(it.data?.token.orEmpty())
-                    binding.login.text = getString(R.string.logout)
-                    homeViewModel.retrieveCheckins()
+                    binding.loginBtn.text = getString(R.string.logout)
+                    homeViewModel.checkins
                 }
                 is NetworkResult.Failure -> {
                     binding.stateful.showError(it.message.orEmpty()) {
@@ -110,5 +107,4 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
-
 }
