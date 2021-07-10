@@ -1,8 +1,8 @@
-package com.gturedi.socialnetworkapp
+package com.gturedi.socialnetworkapp.di
 
-import android.content.Context
-import android.content.SharedPreferences
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.gturedi.socialnetworkapp.BuildConfig
 import com.gturedi.socialnetworkapp.network.AuthRepository
 import com.gturedi.socialnetworkapp.network.AuthService
 import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
@@ -12,7 +12,6 @@ import com.gturedi.socialnetworkapp.util.PrefService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -22,17 +21,21 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object NetworkModule {
 
+    @Singleton
     @Provides
     fun provideSocialNetworkRepository(service:SocialNetworkService) = SocialNetworkRepository(service)
 
+    @Singleton
     @Provides
     fun provideAuthRepository(service: AuthService) = AuthRepository(service)
 
+    @Singleton
     @Provides
     fun provideSocialNetworkService(prefService: PrefService) = Retrofit.Builder()
         .baseUrl(AppConst.URL_API)
@@ -54,16 +57,18 @@ object AppModule {
         .build()
         .create(SocialNetworkService::class.java)
 
+    @Singleton
     @Provides
-    fun provideAuthService() = Retrofit.Builder()
+    fun provideAuthService(gson:Gson) = Retrofit.Builder()
         .baseUrl(AppConst.URL_BASE)
-        .addConverterFactory(GsonConverterFactory.create(provideGson()))
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .client(provideOkhttp())
         .build()
         .create(AuthService::class.java)
 
+    @Singleton
     @Provides
-    fun provideOkhttp(vararg interceptors: Interceptor) = OkHttpClient.Builder()
+    fun provideOkhttp(vararg interceptors: Interceptor = emptyArray()) = OkHttpClient.Builder()
         .connectTimeout(AppConst.CONN_TIMEOUT, TimeUnit.SECONDS)
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
@@ -75,15 +80,10 @@ object AppModule {
         }
         .build()
 
+    @Singleton
     @Provides
     fun provideGson() = GsonBuilder()
         .disableHtmlEscaping()
         .serializeNulls()
         .create()
-
-    @Provides
-    fun providePrefService(pref:SharedPreferences) = PrefService(pref)
-
-    @Provides
-    fun providePref(@ApplicationContext ctx: Context) = ctx.getSharedPreferences("pref", Context.MODE_PRIVATE)
 }
