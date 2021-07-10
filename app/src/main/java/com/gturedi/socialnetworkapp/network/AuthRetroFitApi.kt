@@ -1,11 +1,10 @@
 package com.gturedi.socialnetworkapp.network
 
 import com.gturedi.socialnetworkapp.network.model.TokenModel
-import com.gturedi.socialnetworkapp.util.AppConst
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface AuthService {
+interface AuthRetroFitApi {
 
     @GET("access_token")
     suspend fun accessToken(

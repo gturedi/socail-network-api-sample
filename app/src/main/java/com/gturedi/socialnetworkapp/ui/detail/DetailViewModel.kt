@@ -3,7 +3,7 @@ package com.gturedi.socialnetworkapp.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
-import com.gturedi.socialnetworkapp.network.model.NetworkResult
+import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,7 @@ class DetailViewModel @Inject constructor(
 
     //private val _revenue = MutableLiveData<NetworkResult<SocialNetworkResponse<VenueResponseModel>>>()
     private val _revenue = liveData(Dispatchers.IO) {
-        emit(NetworkResult.Loading)
+        emit(Resource.Loading)
         val result = repository.retrieveVenue(revenueId)
         emit(result)
     }

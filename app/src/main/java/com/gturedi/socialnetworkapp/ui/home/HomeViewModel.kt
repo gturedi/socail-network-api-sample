@@ -3,7 +3,7 @@ package com.gturedi.socialnetworkapp.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
-import com.gturedi.socialnetworkapp.network.model.NetworkResult
+import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ class HomeViewModel @Inject constructor(
 
     //private val _checkins = MutableLiveData<NetworkResult<SocialNetworkResponse<CheckinReponseModel>>>()
     private val _checkins = liveData {
-        emit(NetworkResult.Loading)
+        emit(Resource.Loading)
         val result = repository.retrieveCheckins()
         emit(result)
     }

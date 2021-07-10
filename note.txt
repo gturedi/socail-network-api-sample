@@ -2,3 +2,4 @@ https://tr.foursquare.com/developers/apps/
 
 https://developer.foursquare.com/docs/places-api/authentication/
 
+https://developer.foursquare.com/docs/places-api/errors/

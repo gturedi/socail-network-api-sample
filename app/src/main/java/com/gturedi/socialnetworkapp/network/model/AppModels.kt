@@ -1,9 +1,10 @@
 package com.gturedi.socialnetworkapp.network.model
 
-sealed class NetworkResult<out T> {
-    data class Success<T>(val data: T?) : NetworkResult<T>()
-    data class Failure(val message: String?) : NetworkResult<Nothing>()
-    object Loading : NetworkResult<Nothing>()
+sealed class Resource<out T> {
+
+    data class Success<T>(val data: T?) : Resource<T>()
+    data class Failure(val message: String?) : Resource<Nothing>()
+    object Loading : Resource<Nothing>()
 
     override fun toString(): String {
         return when (this) {

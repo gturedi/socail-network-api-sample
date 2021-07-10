@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.gturedi.socialnetworkapp.network.AuthRepository
-import com.gturedi.socialnetworkapp.network.model.NetworkResult
+import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +28,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun handleAuthorizationCode(code: String?) = liveData {
-        emit(NetworkResult.Loading)
+        emit(Resource.Loading)
         val result = repository.retrieveAccessToken(code.orEmpty())
         emit(result)
     }

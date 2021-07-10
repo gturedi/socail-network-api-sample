@@ -2,14 +2,11 @@ package com.gturedi.socialnetworkapp.network
 
 import com.gturedi.socialnetworkapp.network.model.CheckinReponseModel
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
-import com.gturedi.socialnetworkapp.network.model.TokenModel
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
-import com.gturedi.socialnetworkapp.util.AppConst
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
-interface SocialNetworkService {
+interface SocialNetworkRetrofitApi {
 
     @GET("users/self/checkins")
     suspend fun checkins(): SocialNetworkResponse<CheckinReponseModel>

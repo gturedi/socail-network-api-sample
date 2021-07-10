@@ -36,3 +36,8 @@ fun runSafely(block: () -> Unit) {
 inline fun <R> R?.orElse(block: () -> R): R {
     return this ?: block()
 }
+
+inline fun String?.isNullOrBlank(block: () -> String): String {
+    return if (this.isNullOrBlank()) block()
+    else this
+}

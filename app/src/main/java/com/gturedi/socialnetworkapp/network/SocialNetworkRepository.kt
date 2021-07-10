@@ -1,27 +1,27 @@
 package com.gturedi.socialnetworkapp.network
 
 import com.gturedi.socialnetworkapp.network.model.CheckinReponseModel
-import com.gturedi.socialnetworkapp.network.model.NetworkResult
+import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
 import javax.inject.Inject
 
 class SocialNetworkRepository @Inject constructor(
-    private val service: SocialNetworkService
-) {
+    private val retrofitApi: SocialNetworkRetrofitApi
+) : BaseRepository() {
 
-    suspend fun retrieveCheckins(): NetworkResult<SocialNetworkResponse<CheckinReponseModel>> = try {
-        val result = service.checkins()
-        NetworkResult.Success(result)
+    suspend fun retrieveCheckins(): Resource<SocialNetworkResponse<CheckinReponseModel>> = try {
+        val result = retrofitApi.checkins()
+        Resource.Success(result)
     } catch (e: Exception) {
-        NetworkResult.Failure(e.message)
+        evaluateError(e)
     }
 
-    suspend fun retrieveVenue(id: String): NetworkResult<SocialNetworkResponse<VenueResponseModel>> = try {
-        val result = service.venues(id)
-        NetworkResult.Success(result)
+    suspend fun retrieveVenue(id: String): Resource<SocialNetworkResponse<VenueResponseModel>> = try {
+        val result = retrofitApi.venues(id)
+        Resource.Success(result)
     } catch (e: Exception) {
-        NetworkResult.Failure(e.message)
+        evaluateError(e)
     }
 
 }

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.gturedi.socialnetworkapp.databinding.FragmentDetailBinding
-import com.gturedi.socialnetworkapp.network.model.NetworkResult
+import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
 import com.gturedi.socialnetworkapp.ui.BaseFragment
@@ -37,12 +37,12 @@ class DetailFragment : BaseFragment() {
         detailViewModel.revenueId = args.itemId
         detailViewModel.revenue.observe(viewLifecycleOwner) {
             when (it) {
-                is NetworkResult.Loading -> binding.stateful.showLoading()
-                is NetworkResult.Success -> {
+                is Resource.Loading -> binding.stateful.showLoading()
+                is Resource.Success -> {
                     binding.stateful.showContent()
                     bindData(it)
                 }
-                is NetworkResult.Failure -> {
+                is Resource.Failure -> {
                     binding.stateful.showError(it.message, null)
                 }
             }
@@ -50,7 +50,7 @@ class DetailFragment : BaseFragment() {
         //detailViewModel.retrieveVenue()
     }
 
-    private fun bindData(it: NetworkResult.Success<SocialNetworkResponse<VenueResponseModel>>) {
+    private fun bindData(it: Resource.Success<SocialNetworkResponse<VenueResponseModel>>) {
         it.data?.response?.venue?.let { x ->
             with(binding) {
                 coverIv.loadImageUrl(x.imageUrl())

@@ -4,9 +4,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.gturedi.socialnetworkapp.BuildConfig
 import com.gturedi.socialnetworkapp.network.AuthRepository
-import com.gturedi.socialnetworkapp.network.AuthService
+import com.gturedi.socialnetworkapp.network.AuthRetroFitApi
 import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
-import com.gturedi.socialnetworkapp.network.SocialNetworkService
+import com.gturedi.socialnetworkapp.network.SocialNetworkRetrofitApi
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.PrefService
 import dagger.Module
@@ -29,11 +29,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideSocialNetworkRepository(service:SocialNetworkService) = SocialNetworkRepository(service)
+    fun provideSocialNetworkRepository(retrofitApi:SocialNetworkRetrofitApi) = SocialNetworkRepository(retrofitApi)
 
     @Singleton
     @Provides
-    fun provideAuthRepository(service: AuthService) = AuthRepository(service)
+    fun provideAuthRepository(retroFitApi: AuthRetroFitApi) = AuthRepository(retroFitApi)
 
     @Singleton
     @Provides
@@ -55,7 +55,7 @@ object NetworkModule {
             it.proceed(request)
         }))
         .build()
-        .create(SocialNetworkService::class.java)
+        .create(SocialNetworkRetrofitApi::class.java)
 
     @Singleton
     @Provides
@@ -64,7 +64,7 @@ object NetworkModule {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(provideOkhttp())
         .build()
-        .create(AuthService::class.java)
+        .create(AuthRetroFitApi::class.java)
 
     @Singleton
     @Provides

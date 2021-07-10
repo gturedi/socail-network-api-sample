@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
-import com.gturedi.socialnetworkapp.network.model.NetworkResult
+import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.openCustomTab
@@ -40,8 +40,8 @@ class HomeFragment : BaseFragment() {
 
         homeViewModel.checkins.observe(viewLifecycleOwner) {
             when (it) {
-                is NetworkResult.Loading -> binding.stateful.showLoading()
-                is NetworkResult.Success -> {
+                is Resource.Loading -> binding.stateful.showLoading()
+                is Resource.Success -> {
                     if (it.data?.response?.checkins?.items?.isNullOrEmpty() == true) {
                         binding.stateful.showError(R.string.errorMessage) {
                             homeViewModel.checkins
@@ -51,7 +51,7 @@ class HomeFragment : BaseFragment() {
                         checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())
                     }
                 }
-                is NetworkResult.Failure -> {
+                is Resource.Failure -> {
                     binding.stateful.showError(it.message.orEmpty()) {
                         homeViewModel.checkins
                     }
@@ -91,13 +91,13 @@ class HomeFragment : BaseFragment() {
     private fun handleAuthorizationCode(code: String) {
         authViewModel.handleAuthorizationCode(code).observe(viewLifecycleOwner) {
             when (it) {
-                is NetworkResult.Loading -> binding.stateful.showLoading()
-                is NetworkResult.Success -> {
+                is Resource.Loading -> binding.stateful.showLoading()
+                is Resource.Success -> {
                     authViewModel.setAccessToken(it.data?.token.orEmpty())
                     binding.loginBtn.text = getString(R.string.logout)
                     homeViewModel.checkins
                 }
-                is NetworkResult.Failure -> {
+                is Resource.Failure -> {
                     binding.stateful.showError(it.message.orEmpty()) {
                         lifecycleScope.launchWhenCreated {
                             handleAuthorizationCode(code)
