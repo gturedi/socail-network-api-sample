@@ -25,7 +25,7 @@ class DetailViewModel @Inject constructor(
         log("DetailViewModel init")
     }
 
-    fun retrieveVenue(id:String) = getData(id)
+    fun getVenue(id:String) = getData(id)
 
     private fun getData(id:String) {
         _revenue.value = Resource.Loading

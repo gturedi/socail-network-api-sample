@@ -43,12 +43,12 @@ class DetailFragment : BaseFragment() {
                 }
                 is Resource.Failure -> {
                     binding.stateful.showError(it.message) {
-                        detailViewModel.retrieveVenue(args.itemId)
+                        detailViewModel.getVenue(args.itemId)
                     }
                 }
             }
         }
-        detailViewModel.retrieveVenue(args.itemId)
+        detailViewModel.getVenue(args.itemId)
     }
 
     private fun bindData(it: Resource.Success<SocialNetworkResponse<VenueResponseModel>>) {

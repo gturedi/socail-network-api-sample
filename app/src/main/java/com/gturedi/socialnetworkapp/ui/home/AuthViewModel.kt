@@ -3,7 +3,6 @@ package com.gturedi.socialnetworkapp.ui.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.network.repository.AuthRepository
 import com.gturedi.socialnetworkapp.util.PrefService
@@ -19,8 +18,6 @@ class AuthViewModel @Inject constructor(
 
     private val _authCode = MutableLiveData<String>()
     val authCode get() = _authCode
-
-    val loginBtnTitleResId:Int get() = if(hasAccessToken()) R.string.logout else R.string.login
 
     init {
         log("AuthViewModel init")
@@ -38,9 +35,5 @@ class AuthViewModel @Inject constructor(
         }
         emit(result)
     }
-
-    fun setAccessToken(value: String) = prefService.writeAccessToken(value)
-
-    fun hasAccessToken() = prefService.readAccessToken().isNullOrBlank().not()
 
 }

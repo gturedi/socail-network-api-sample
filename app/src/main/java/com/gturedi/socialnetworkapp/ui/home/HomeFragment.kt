@@ -13,8 +13,6 @@ import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.ui.BaseFragment
-import com.gturedi.socialnetworkapp.util.AppConst
-import com.gturedi.socialnetworkapp.util.openCustomTab
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,15 +39,8 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun init() = with(binding) {
-        loginBtn.text = getString(authViewModel.loginBtnTitleResId)
         loginBtn.setOnClickListener {
-            if (authViewModel.hasAccessToken()) {
-                authViewModel.setAccessToken("")
-                checkinsAdapter?.submitList(mutableListOf())
-            } else {
-                context?.openCustomTab(AppConst.URL_AUTH)
-            }
-            loginBtn.text = getString(authViewModel.loginBtnTitleResId)
+            homeViewModel.loginBtnClicked()
         }
 
         checkinsAdapter = CheckinsAdapter {
@@ -65,6 +56,9 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun observe() {
+        homeViewModel.loginBtnTextResId.observe(viewLifecycleOwner) {
+            binding.loginBtn.text = getString(it)
+        }
         homeViewModel.checkins.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> binding.stateful.showLoading()
@@ -78,9 +72,10 @@ class HomeFragment : BaseFragment() {
                 }
                 is Resource.Failure -> {
                     binding.stateful.showError(it.message.orEmpty()) {
-                        homeViewModel.retrieveCheckins()
+                        homeViewModel.getCheckins()
                     }
                 }
+                is Resource.Empty -> checkinsAdapter?.submitList(mutableListOf())
             }
         }
         authViewModel.authCode.observe(viewLifecycleOwner) {
@@ -96,7 +91,7 @@ class HomeFragment : BaseFragment() {
                 is Resource.Loading -> binding.stateful.showLoading()
                 is Resource.Success -> {
                     binding.loginBtn.text = getString(R.string.logout)
-                    homeViewModel.retrieveCheckins()
+                    homeViewModel.getCheckins()
                 }
                 is Resource.Failure -> {
                     binding.stateful.showError(it.message.orEmpty()) {
