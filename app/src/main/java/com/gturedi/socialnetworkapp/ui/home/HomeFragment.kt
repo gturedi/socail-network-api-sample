@@ -70,7 +70,7 @@ class HomeFragment : BaseFragment() {
                 is Resource.Loading -> binding.stateful.showLoading()
                 is Resource.Success -> {
                     if (it.data?.response?.checkins?.items?.isNullOrEmpty() == true) {
-                        binding.stateful.showError(R.string.errorMessage, null)
+                        binding.stateful.showError(R.string.emptyCheckinsMsg, null)
                     } else {
                         binding.stateful.showContent()
                         checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())

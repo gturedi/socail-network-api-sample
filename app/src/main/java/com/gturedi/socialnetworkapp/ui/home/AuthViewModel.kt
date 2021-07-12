@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.network.model.Resource
-import com.gturedi.socialnetworkapp.network.repository.RemoteAuthRepository
+import com.gturedi.socialnetworkapp.network.repository.AuthRepository
 import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val prefService: PrefService,
-    private val repository: RemoteAuthRepository
+    private val repository: AuthRepository
 ) : ViewModel() {
 
     private val _authCode = MutableLiveData<String>()

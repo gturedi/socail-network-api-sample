@@ -5,8 +5,10 @@ import com.google.gson.GsonBuilder
 import com.gturedi.socialnetworkapp.BuildConfig
 import com.gturedi.socialnetworkapp.network.AuthRetrofitApi
 import com.gturedi.socialnetworkapp.network.SocialNetworkRetrofitApi
+import com.gturedi.socialnetworkapp.network.repository.AuthRepository
 import com.gturedi.socialnetworkapp.network.repository.RemoteAuthRepository
 import com.gturedi.socialnetworkapp.network.repository.RemoteSocialNetworkRepository
+import com.gturedi.socialnetworkapp.network.repository.SocialNetworkRepository
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.PrefService
 import dagger.Module
@@ -29,11 +31,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideSocialNetworkRepository(api:SocialNetworkRetrofitApi) = RemoteSocialNetworkRepository(api)
+    fun provideSocialNetworkRepository(api: SocialNetworkRetrofitApi): SocialNetworkRepository = RemoteSocialNetworkRepository(api)
 
     @Singleton
     @Provides
-    fun provideAuthRepository(api: AuthRetrofitApi) = RemoteAuthRepository(api)
+    fun provideAuthRepository(api: AuthRetrofitApi): AuthRepository = RemoteAuthRepository(api)
 
     @Singleton
     @Provides
@@ -59,7 +61,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(gson:Gson) = Retrofit.Builder()
+    fun provideAuthService(gson: Gson) = Retrofit.Builder()
         .baseUrl(AppConst.URL_BASE)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(provideOkhttp())

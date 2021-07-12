@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.gturedi.socialnetworkapp.network.model.CheckinReponseModel
 import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
-import com.gturedi.socialnetworkapp.network.repository.RemoteSocialNetworkRepository
+import com.gturedi.socialnetworkapp.network.repository.SocialNetworkRepository
 import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val prefService: PrefService,
-    private val repository: RemoteSocialNetworkRepository
+    private val repository: SocialNetworkRepository
 ) : ViewModel() {
 
     private val _checkins = MutableLiveData<Resource<SocialNetworkResponse<CheckinReponseModel>>>()

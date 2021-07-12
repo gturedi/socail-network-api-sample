@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SocialNetworkApp</string>
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="errorMessage">An error occurred please try again later</string>
+    <string name="emptyCheckinsMsg">looks like you have not do checkin before</string>
+    <string name="errorMessage">an error occurred please try again later</string>
     <string name="loading">loading..</string>
     <string name="login">login</string>
     <string name="logout">logout</string>

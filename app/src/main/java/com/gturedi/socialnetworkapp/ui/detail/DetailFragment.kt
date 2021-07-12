@@ -34,7 +34,6 @@ class DetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        detailViewModel.revenueId = args.itemId
         detailViewModel.revenue.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> binding.stateful.showLoading()
@@ -44,12 +43,12 @@ class DetailFragment : BaseFragment() {
                 }
                 is Resource.Failure -> {
                     binding.stateful.showError(it.message) {
-                        detailViewModel.revenue
+                        detailViewModel.retrieveVenue(args.itemId)
                     }
                 }
             }
         }
-        //detailViewModel.retrieveVenue()
+        detailViewModel.retrieveVenue(args.itemId)
     }
 
     private fun bindData(it: Resource.Success<SocialNetworkResponse<VenueResponseModel>>) {
