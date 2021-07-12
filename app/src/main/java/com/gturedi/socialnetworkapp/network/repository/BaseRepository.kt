@@ -1,4 +1,4 @@
-package com.gturedi.socialnetworkapp.network
+package com.gturedi.socialnetworkapp.network.repository
 
 import com.google.gson.Gson
 import com.gturedi.socialnetworkapp.network.model.Resource

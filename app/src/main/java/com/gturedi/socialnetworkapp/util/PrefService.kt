@@ -9,7 +9,12 @@ class PrefService @Inject constructor(
 
     private val KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN"
 
-    fun accessToken(value: String) = prefs.edit()?.putString(KEY_ACCESS_TOKEN, value)?.apply()
-    fun accessToken() = prefs.getString(KEY_ACCESS_TOKEN, "")
+    fun writeAccessToken(value: String) =
+        prefs.edit()?.putString(KEY_ACCESS_TOKEN, value)?.apply()
+
+    fun readAccessToken() =
+        prefs.getString(KEY_ACCESS_TOKEN, "").also {
+            log("token $it")
+        }
 
 }

@@ -3,10 +3,10 @@ package com.gturedi.socialnetworkapp.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.gturedi.socialnetworkapp.BuildConfig
-import com.gturedi.socialnetworkapp.network.AuthRepository
-import com.gturedi.socialnetworkapp.network.AuthRetroFitApi
-import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
+import com.gturedi.socialnetworkapp.network.AuthRetrofitApi
 import com.gturedi.socialnetworkapp.network.SocialNetworkRetrofitApi
+import com.gturedi.socialnetworkapp.network.repository.RemoteAuthRepository
+import com.gturedi.socialnetworkapp.network.repository.RemoteSocialNetworkRepository
 import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.PrefService
 import dagger.Module
@@ -29,11 +29,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideSocialNetworkRepository(retrofitApi:SocialNetworkRetrofitApi) = SocialNetworkRepository(retrofitApi)
+    fun provideSocialNetworkRepository(api:SocialNetworkRetrofitApi) = RemoteSocialNetworkRepository(api)
 
     @Singleton
     @Provides
-    fun provideAuthRepository(retroFitApi: AuthRetroFitApi) = AuthRepository(retroFitApi)
+    fun provideAuthRepository(api: AuthRetrofitApi) = RemoteAuthRepository(api)
 
     @Singleton
     @Provides
@@ -45,7 +45,7 @@ object NetworkModule {
             val originalHttpUrl: HttpUrl = original.url()
 
             val url = originalHttpUrl.newBuilder()
-                .addQueryParameter("oauth_token", prefService.accessToken())
+                .addQueryParameter("oauth_token", prefService.readAccessToken())
                 .addQueryParameter("v", AppConst.API_VERS)
                 .build()
 
@@ -64,7 +64,7 @@ object NetworkModule {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(provideOkhttp())
         .build()
-        .create(AuthRetroFitApi::class.java)
+        .create(AuthRetrofitApi::class.java)
 
     @Singleton
     @Provides

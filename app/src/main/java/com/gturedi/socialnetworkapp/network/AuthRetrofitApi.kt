@@ -4,7 +4,7 @@ import com.gturedi.socialnetworkapp.network.model.TokenModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface AuthRetroFitApi {
+interface AuthRetrofitApi {
 
     @GET("access_token")
     suspend fun accessToken(

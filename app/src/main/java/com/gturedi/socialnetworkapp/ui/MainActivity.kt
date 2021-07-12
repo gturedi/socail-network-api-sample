@@ -32,8 +32,6 @@ class MainActivity : BaseActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        log("token ${viewModel.getAccessToken()}")
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -37,45 +37,19 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         init()
-
-        homeViewModel.checkins.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> binding.stateful.showLoading()
-                is Resource.Success -> {
-                    if (it.data?.response?.checkins?.items?.isNullOrEmpty() == true) {
-                        binding.stateful.showError(R.string.errorMessage) {
-                            homeViewModel.checkins
-                        }
-                    } else {
-                        binding.stateful.showContent()
-                        checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())
-                    }
-                }
-                is Resource.Failure -> {
-                    binding.stateful.showError(it.message.orEmpty()) {
-                        homeViewModel.checkins
-                    }
-                }
-            }
-        }
-
-        authViewModel.authCode.observe(viewLifecycleOwner) {
-            if (it.isNullOrBlank().not()) {
-                handleAuthorizationCode(it)
-            }
-        }
+        observe()
     }
 
-    fun init() = with(binding) {
-        loginBtn.text = getString(if (authViewModel.getAccessToken().isNullOrBlank()) R.string.login else R.string.logout)
+    private fun init() = with(binding) {
+        loginBtn.text = getString(authViewModel.loginBtnTitleResId)
         loginBtn.setOnClickListener {
-            if (authViewModel.getAccessToken().isNullOrBlank()) {
-                context?.openCustomTab(AppConst.URL_AUTH)
-            } else {
+            if (authViewModel.hasAccessToken()) {
                 authViewModel.setAccessToken("")
-                loginBtn.text = getString(R.string.login)
                 checkinsAdapter?.submitList(mutableListOf())
+            } else {
+                context?.openCustomTab(AppConst.URL_AUTH)
             }
+            loginBtn.text = getString(authViewModel.loginBtnTitleResId)
         }
 
         checkinsAdapter = CheckinsAdapter {
@@ -83,9 +57,37 @@ class HomeFragment : BaseFragment() {
             //findNavController().navigate(R.id.DetailFragment, DetailFragmentArgs("4b880ac4f964a52036db31e3").toBundle())
             findNavController().navigate(HomeFragmentDirections.homeToDetail(it.venue.id))
         }
-        itemsRv.setHasFixedSize(true)
-        itemsRv.adapter = checkinsAdapter
-        itemsRv.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        with(itemsRv) {
+            setHasFixedSize(true)
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            adapter = checkinsAdapter
+        }
+    }
+
+    private fun observe() {
+        homeViewModel.checkins.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> binding.stateful.showLoading()
+                is Resource.Success -> {
+                    if (it.data?.response?.checkins?.items?.isNullOrEmpty() == true) {
+                        binding.stateful.showError(R.string.errorMessage, null)
+                    } else {
+                        binding.stateful.showContent()
+                        checkinsAdapter?.submitList(it.data?.response?.checkins?.items?.toMutableList())
+                    }
+                }
+                is Resource.Failure -> {
+                    binding.stateful.showError(it.message.orEmpty()) {
+                        homeViewModel.retrieveCheckins()
+                    }
+                }
+            }
+        }
+        authViewModel.authCode.observe(viewLifecycleOwner) {
+            if (it.isNullOrBlank().not()) {
+                handleAuthorizationCode(it)
+            }
+        }
     }
 
     private fun handleAuthorizationCode(code: String) {
@@ -93,9 +95,8 @@ class HomeFragment : BaseFragment() {
             when (it) {
                 is Resource.Loading -> binding.stateful.showLoading()
                 is Resource.Success -> {
-                    authViewModel.setAccessToken(it.data?.token.orEmpty())
                     binding.loginBtn.text = getString(R.string.logout)
-                    homeViewModel.checkins
+                    homeViewModel.retrieveCheckins()
                 }
                 is Resource.Failure -> {
                     binding.stateful.showError(it.message.orEmpty()) {

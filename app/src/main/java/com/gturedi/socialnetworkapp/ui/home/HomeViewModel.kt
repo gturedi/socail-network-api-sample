@@ -1,33 +1,43 @@
 package com.gturedi.socialnetworkapp.ui.home
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.gturedi.socialnetworkapp.network.SocialNetworkRepository
+import androidx.lifecycle.viewModelScope
+import com.gturedi.socialnetworkapp.network.model.CheckinReponseModel
 import com.gturedi.socialnetworkapp.network.model.Resource
+import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
+import com.gturedi.socialnetworkapp.network.repository.RemoteSocialNetworkRepository
 import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val prefService: PrefService,
-    private val repository: SocialNetworkRepository
+    private val repository: RemoteSocialNetworkRepository
 ) : ViewModel() {
 
-    //private val _checkins = MutableLiveData<NetworkResult<SocialNetworkResponse<CheckinReponseModel>>>()
-    private val _checkins = liveData {
-        emit(Resource.Loading)
-        val result = repository.retrieveCheckins()
-        emit(result)
-    }
+    private val _checkins = MutableLiveData<Resource<SocialNetworkResponse<CheckinReponseModel>>>()
     val checkins get() = _checkins
 
     init {
         log("HomeViewModel init")
 
-        if (prefService.accessToken().isNullOrBlank().not()) {
-            checkins
+        if (prefService.readAccessToken().isNullOrBlank().not()) {
+            getData()
+        }
+    }
+
+    fun retrieveCheckins() = getData()
+
+    private fun getData() {
+        _checkins.value = Resource.Loading
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repository.retrieveCheckins()
+            _checkins.postValue(result)
         }
     }
 }

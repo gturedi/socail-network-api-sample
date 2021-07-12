@@ -43,7 +43,9 @@ class DetailFragment : BaseFragment() {
                     bindData(it)
                 }
                 is Resource.Failure -> {
-                    binding.stateful.showError(it.message, null)
+                    binding.stateful.showError(it.message) {
+                        detailViewModel.revenue
+                    }
                 }
             }
         }
