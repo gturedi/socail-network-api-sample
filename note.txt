@@ -3,3 +3,6 @@ https://tr.foursquare.com/developers/apps/
 https://developer.foursquare.com/docs/places-api/authentication/
 
 https://developer.foursquare.com/docs/places-api/errors/
+
+https://blog.shreyaspatil.dev/providing-assistedinject-supported-viewmodel-for-composable-using-hilt
+https://stackoverflow.com/questions/65280323/how-to-pass-runtime-parameters-to-a-viewmodels-constructor-when-using-hilt-for

@@ -15,13 +15,18 @@ import com.gturedi.socialnetworkapp.util.loadImageUrl
 import com.gturedi.socialnetworkapp.util.openCustomTab
 import com.gturedi.socialnetworkapp.util.underline
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDetailBinding
-    private val detailViewModel: DetailViewModel by viewModels()
     private val args: DetailFragmentArgs by navArgs()
+    @Inject
+    lateinit var viewModelAssistedFactory: DetailViewModelFactory
+    private val detailViewModel: DetailViewModel by viewModels {
+        DetailViewModel.provideFactory(viewModelAssistedFactory, args.itemId)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,12 +48,12 @@ class DetailFragment : BaseFragment() {
                 }
                 is Resource.Failure -> {
                     binding.stateful.showError(it.message) {
-                        detailViewModel.getVenue(args.itemId)
+                        detailViewModel.getVenue()
                     }
                 }
             }
         }
-        detailViewModel.getVenue(args.itemId)
+        //detailViewModel.getVenue(args.itemId)
     }
 
     private fun bindData(it: Resource.Success<SocialNetworkResponse<VenueResponseModel>>) {
@@ -56,11 +61,12 @@ class DetailFragment : BaseFragment() {
             with(binding) {
                 coverIv.loadImageUrl(x.imageUrl())
                 nameTv.text = x.name
-
-                canonicalUrlTv.text = x.canonicalUrl
-                canonicalUrlTv.underline()
-                canonicalUrlTv.setOnClickListener {
-                    context?.openCustomTab(x.canonicalUrl.orEmpty())
+                with(canonicalUrlTv) {
+                    text = x.canonicalUrl
+                    underline()
+                    setOnClickListener {
+                        context?.openCustomTab(x.canonicalUrl.orEmpty())
+                    }
                 }
                 categoriesTv.text = x.categories()
             }
