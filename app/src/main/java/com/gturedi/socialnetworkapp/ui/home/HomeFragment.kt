@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,14 +11,16 @@ import com.gturedi.socialnetworkapp.R
 import com.gturedi.socialnetworkapp.databinding.FragmentHomeBinding
 import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.ui.BaseFragment
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val authViewModel: AuthViewModel by activityViewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
+    //private val authViewModel: AuthViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by sharedViewModel()
+    private val homeViewModel: HomeViewModel by viewModel()
     private var checkinsAdapter: CheckinsAdapter? = null
 
     override fun onCreateView(

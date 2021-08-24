@@ -13,13 +13,11 @@ import com.gturedi.socialnetworkapp.util.AppConst
 import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
 import com.gturedi.socialnetworkapp.util.openCustomTab
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class HomeViewModel @Inject constructor(
+//@HiltViewModel
+class HomeViewModel constructor(
     private val app: Application,
     private val prefService: PrefService,
     private val repository: SocialNetworkRepository

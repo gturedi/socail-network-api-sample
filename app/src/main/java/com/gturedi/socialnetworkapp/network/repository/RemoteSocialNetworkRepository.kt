@@ -5,9 +5,8 @@ import com.gturedi.socialnetworkapp.network.model.CheckinReponseModel
 import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
-import javax.inject.Inject
 
-class RemoteSocialNetworkRepository @Inject constructor(
+class RemoteSocialNetworkRepository /*@Inject*/ constructor(
     private val api: SocialNetworkRetrofitApi
 ) : BaseRepository(), SocialNetworkRepository {
 

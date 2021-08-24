@@ -7,11 +7,9 @@ import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.network.repository.AuthRepository
 import com.gturedi.socialnetworkapp.util.PrefService
 import com.gturedi.socialnetworkapp.util.log
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class AuthViewModel @Inject constructor(
+//@HiltViewModel
+class AuthViewModel constructor(
     private val prefService: PrefService,
     private val repository: AuthRepository
 ) : ViewModel() {

@@ -1,9 +1,8 @@
 package com.gturedi.socialnetworkapp.util
 
 import android.content.SharedPreferences
-import javax.inject.Inject
 
-class PrefService @Inject constructor(
+class PrefService /*@Inject*/ constructor(
     private val prefs: SharedPreferences
 ) {
 
@@ -16,5 +15,4 @@ class PrefService @Inject constructor(
         prefs.getString(KEY_ACCESS_TOKEN, "").also {
             log("token $it")
         }
-
 }

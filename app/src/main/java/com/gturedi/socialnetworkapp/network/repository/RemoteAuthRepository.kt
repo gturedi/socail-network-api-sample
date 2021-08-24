@@ -5,9 +5,8 @@ import com.gturedi.socialnetworkapp.network.AuthRetrofitApi
 import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.network.model.TokenModel
 import com.gturedi.socialnetworkapp.util.AppConst
-import javax.inject.Inject
 
-class RemoteAuthRepository @Inject constructor(
+class RemoteAuthRepository /*@Inject */constructor(
     private val api: AuthRetrofitApi
 ) : BaseRepository(), AuthRepository {
 

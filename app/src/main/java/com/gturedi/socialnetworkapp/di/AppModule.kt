@@ -1,24 +1,17 @@
 package com.gturedi.socialnetworkapp.di
 
+import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import com.gturedi.socialnetworkapp.util.PrefService
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.android.ext.koin.androidApplication
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
 
-    @Singleton
-    @Provides
-    fun providePrefService(pref:SharedPreferences) = PrefService(pref)
-
-    @Singleton
-    @Provides
-    fun providePref(@ApplicationContext ctx: Context) = ctx.getSharedPreferences("pref", Context.MODE_PRIVATE)
+val appModule = module {
+    single { PrefService(providePreferences(androidApplication())) }
 }
+
+private const val DEFAULT_PREF = "DEFAULT_PREF"
+
+private fun providePreferences(app: Application) =
+    app.getSharedPreferences(DEFAULT_PREF, Context.MODE_PRIVATE)

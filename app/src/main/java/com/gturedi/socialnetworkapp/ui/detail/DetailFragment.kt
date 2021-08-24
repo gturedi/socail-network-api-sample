@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.gturedi.socialnetworkapp.databinding.FragmentDetailBinding
 import com.gturedi.socialnetworkapp.network.model.Resource
@@ -14,19 +13,17 @@ import com.gturedi.socialnetworkapp.ui.BaseFragment
 import com.gturedi.socialnetworkapp.util.loadImageUrl
 import com.gturedi.socialnetworkapp.util.openCustomTab
 import com.gturedi.socialnetworkapp.util.underline
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class DetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDetailBinding
     private val args: DetailFragmentArgs by navArgs()
-    @Inject
-    lateinit var viewModelAssistedFactory: DetailViewModelFactory
-    private val detailViewModel: DetailViewModel by viewModels {
-        DetailViewModel.provideFactory(viewModelAssistedFactory, args.itemId)
-    }
+    //@Inject lateinit var viewModelAssistedFactory: DetailViewModelFactory
+    //private val detailViewModel: DetailViewModel by viewModels { DetailViewModel.provideFactory(viewModelAssistedFactory, args.itemId) }
+    private val detailViewModel: DetailViewModel by viewModel { parametersOf(args.itemId) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

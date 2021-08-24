@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id "androidx.navigation.safeargs.kotlin"
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    //id 'dagger.hilt.android.plugin'
 }
 
 def gradleLocalProperties(key) {
@@ -67,6 +67,7 @@ ext {
     picasso_version = "2.8"
     stateful_version = "1.2.2"
     lifecycle_version = "2.3.1"
+    koin_version = "3.1.2"
     //ext.hilt_version = "2.37"
 }
 
@@ -83,8 +84,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    //implementation "com.google.dagger:hilt-android:$hilt_version"
+    //kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    //implementation "io.insert-koin:koin-android-viewmodel:$koin_version"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.google.android.material:material:$material_version"

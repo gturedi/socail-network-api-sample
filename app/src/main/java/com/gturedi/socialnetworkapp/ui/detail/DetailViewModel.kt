@@ -2,31 +2,27 @@ package com.gturedi.socialnetworkapp.ui.detail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.gturedi.socialnetworkapp.network.model.Resource
 import com.gturedi.socialnetworkapp.network.model.SocialNetworkResponse
 import com.gturedi.socialnetworkapp.network.model.VenueResponseModel
 import com.gturedi.socialnetworkapp.network.repository.SocialNetworkRepository
 import com.gturedi.socialnetworkapp.util.log
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 //@HiltViewModel
 class DetailViewModel
-@AssistedInject
+//@AssistedInject
 constructor(
-    @Assisted private val revenueId: String,
+    /*@Assisted*/ private val revenueId: String,
     private val repository: SocialNetworkRepository
 ) : ViewModel() {
 
     private val _revenue = MutableLiveData<Resource<SocialNetworkResponse<VenueResponseModel>>>()
     val revenue get() = _revenue
 
-    companion object {
+    /*companion object {
         fun provideFactory(
             assistedFactory: DetailViewModelFactory,
             revenueId: String
@@ -35,7 +31,7 @@ constructor(
                 return assistedFactory.create(revenueId) as T
             }
         }
-    }
+    }*/
 
     init {
         log("DetailViewModel init $revenueId")
@@ -58,7 +54,7 @@ constructor(
     }
 }
 
-@AssistedFactory
+/*@AssistedFactory
 interface DetailViewModelFactory {
     fun create(revenueId: String): DetailViewModel
-}
+}*/
