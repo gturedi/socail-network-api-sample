@@ -1,22 +1,20 @@
 package com.gturedi.socialnetworkapp.ui
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.gturedi.socialnetworkapp.R
-import com.gturedi.socialnetworkapp.databinding.ActivityMainBinding
+import androidx.activity.compose.setContent
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import com.gturedi.socialnetworkapp.ui.home.AuthViewModel
-import com.gturedi.socialnetworkapp.util.log
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 //@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    //private lateinit var appBarConfiguration: AppBarConfiguration
+    //private lateinit var binding: ActivityMainBinding
     //private val viewModel: AuthViewModel by viewModels()
     private val viewModel:AuthViewModel by viewModel()
     private val KEY_CODE = "code"
@@ -24,25 +22,15 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
-
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setContent {
+            Text("Hello world!")
+        }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        val code = intent?.data?.getQueryParameter(KEY_CODE)
-        log("code $code")
-        viewModel.updateAuthCode(code.orEmpty())
-    }
+}
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
+@Preview
+@Composable
+fun Greeting() {
+    Text("Hello, World!", style = TextStyle(color = Color.Red))
 }
